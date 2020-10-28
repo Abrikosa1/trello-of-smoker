@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Navbar';
 import TaskCard from '../TaskCard/TaskCard';
 
 const Main: React.FC = () => {
+
   return(
     <>
       <main>
