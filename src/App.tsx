@@ -1,17 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
+import { UserContext } from './components/UserContext';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-const ColorContext = React.createContext("username");
+
 function App() {
+  const name = localStorage.getItem('username');
+  const [username, setUsername] = useState(name);
   return (
     <>
-      <Header />
-      <Main />
+      <UserContext.Provider value={ { username, setUsername } }>
+        <Header />
+      </UserContext.Provider>
+      {name ? <Main /> : ''}
     </>
   );
 }

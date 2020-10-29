@@ -1,6 +1,9 @@
 import React from 'react';
 import Container from 'react-bootstrap/Navbar';
-import TaskCard from '../TaskCard/TaskCard';
+import TodoList from '../TodoList/TodoList';
+import Board from '../Board/Board';
+
+import './main.css';
 
 const Main: React.FC = () => {
 
@@ -8,7 +11,14 @@ const Main: React.FC = () => {
     <>
       <main>
         <Container>
-          <TaskCard />
+          <div id="board" className="board u-fancy-scrollbar">
+            <TodoList />
+            <TodoList />
+            <TodoList />
+            <TodoList />
+            <TodoList />
+            <TodoList />
+          </div>
         </Container>
       </main>
     </>

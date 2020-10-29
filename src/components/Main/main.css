@@ -1,0 +1,29 @@
+#board{
+  -webkit-user-select: none;
+  user-select: none;
+  white-space: nowrap;
+  margin-bottom: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 8px;
+  /* position: absolute; */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+#board::-webkit-scrollbar {
+  width: 6px;
+  height: 15px;
+}
+
+#board::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(9, 30, 66, .08);
+  border-radius: 10px;
+}
+
+#board::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .15);
+}

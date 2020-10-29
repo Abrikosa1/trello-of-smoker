@@ -3,7 +3,8 @@ import Card from 'react-bootstrap/Card';
 
 const TaskCard: React.FC = () => {
   return(
-    <Card style={{ width: '18rem' }}>
+    // <Card style={{ width: '18rem' }}>
+    <Card>
       <Card.Body>
         <Card.Title>Card Title</Card.Title>
         <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
