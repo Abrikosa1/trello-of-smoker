@@ -12,11 +12,13 @@ function App() {
   const name = localStorage.getItem('username');
   const [username, setUsername] = useState(name);
   return (
-    <>
-      <UserContext.Provider value={ { username, setUsername } }>
-        <Header />
-      </UserContext.Provider>
-      {name ? <Main /> : ''}
+    <> 
+      <div className="app-wrapper">
+        <UserContext.Provider value={ { username, setUsername } }>
+          <Header />
+        </UserContext.Provider>
+        {name ? <Main /> : ''}
+      </div>
     </>
   );
 }

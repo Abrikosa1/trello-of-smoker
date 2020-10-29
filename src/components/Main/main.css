@@ -1,12 +1,16 @@
+main{
+  position: relative;
+  flex-grow: 1;
+}
 #board{
   -webkit-user-select: none;
   user-select: none;
   white-space: nowrap;
-  margin-bottom: 8px;
+  margin: 8px 8px;
   overflow-x: auto;
   overflow-y: hidden;
   padding-bottom: 8px;
-  /* position: absolute; */
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;

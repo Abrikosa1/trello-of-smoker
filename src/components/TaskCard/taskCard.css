@@ -1,0 +1,75 @@
+.card{
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(9, 30, 66, .25);
+  cursor: pointer;
+  display: block;
+  margin-bottom: 8px;
+  max-width: 300px;
+  min-height: 20px;
+  position: relative;
+  text-decoration: none;
+  z-index: 0;
+}
+.card__details{
+  overflow: hidden;
+  padding: 6px 8px 2px;
+  position: relative;
+  z-index: 10;
+}
+.card__title{
+  clear: both;
+  display: block;
+  margin: 0 0 4px;
+  overflow: hidden;
+  text-decoration: none;
+  word-wrap: break-word;
+  color: #172b4d;
+}
+.card__badges{
+  float: left;
+  max-width: 100%;
+  margin-left: -2px;
+}
+.card__badge{
+  color: #5e6c84;
+  display: inline-block;
+  margin: 0 4px 4px 0;
+  max-width: 100%;
+  min-height: 20px;
+  overflow: hidden;
+  position: relative;
+  padding: 2px;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+.badge__icon{
+  color: #6b778c;
+  vertical-align: top;
+}
+.badge__icon_sm {
+  height: 20px;
+  font-size: 16px;
+  line-height: 20px;
+  width: 20px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  font-family: trellicons;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: bottom;
+}
+.badge__icon_comment::before {
+  content: "\E91C";
+}
+.badge__text{
+  font-size: 12px;
+  padding: 0 4px 0 2px;
+  vertical-align: top;
+  white-space: nowrap;
+}

@@ -10,7 +10,7 @@ const TodoList: React.FC = () => {
           <textarea className="todo-list__title">TODO</textarea>
           <div className="todo-list__extras">X</div>
         </div>
-        <div className="todo-list__cards">
+        <div className="todo-list__cards u-fancy-scrollbar">
           <TaskCard />
           <TaskCard />
           <TaskCard />

@@ -19,7 +19,7 @@ const NameModal: React.FC = () => {
     inputUsername = e.target.value.trim();
   }
 
-  const submitModal = (e: any) => {
+  const submitModal = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setUsername(inputUsername);
     localStorage.setItem('username', inputUsername);
@@ -40,7 +40,6 @@ const NameModal: React.FC = () => {
         backdrop="static"
         keyboard={false}
         centered 
-        
       >
         <Modal.Header closeButton>
           <Modal.Title>Oops... what is your username?</Modal.Title>
