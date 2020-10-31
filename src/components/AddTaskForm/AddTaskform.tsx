@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { AddTask } from '../../types';
 import './addTaskform.css';
@@ -10,7 +10,7 @@ interface IAddTaskFormProps {
 const AddTaskform: React.FC<IAddTaskFormProps> = ({ addTask }) => {
   const [newTask, setNewTask] = useState('');
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTask(e.target.value);
   }
 
@@ -23,7 +23,7 @@ const AddTaskform: React.FC<IAddTaskFormProps> = ({ addTask }) => {
        <div className="card">
          <div className="card__details">
             <Form className="card-add__form">
-              <Form.Group controlId="exampleForm.ControlTextarea1">
+              <Form.Group controlId="exampleForm.ControlTextarea1" style={{ marginBottom: '3px' }}>
                 <Form.Control value={newTask} 
                 onChange={handleChange}
                 className="card-add__textarea" 

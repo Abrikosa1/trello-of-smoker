@@ -7,24 +7,25 @@ import { UserContext } from '../UserContext';
 
 interface ITasksListProps {
   id: number;
+  title: string;
   tasks: Array<Task>;
   setTasks: React.Dispatch<SetStateAction<Array<Task>>>;
   toggleCompleted: ToggleCompleted;
 }
 
 
-const TasksList: React.FC<ITasksListProps> = ({ tasks, setTasks, toggleCompleted, id }) => {
+const TasksList: React.FC<ITasksListProps> = ({ tasks, setTasks, toggleCompleted, id, title }) => {
+  
  
   const [value, setValue] = useState(false);
   const addCard = (e: any) => {
     e.preventDefault();
     setValue(true);
   }
-  console.log(id);
   const { username } = useContext(UserContext);
 
   const addTask: AddTask = (newTask: string) => {
-    setTasks([...tasks, { title: newTask, username: username || "", complete: false }]);
+    setTasks([...tasks, { id: tasks.length + 1, title: newTask, username: username || "", complete: false }]);
     localStorage.setItem(username || "", JSON.stringify(tasks));
     setValue(false);
   };
@@ -33,7 +34,7 @@ const TasksList: React.FC<ITasksListProps> = ({ tasks, setTasks, toggleCompleted
     <div className="tasks-list" id={id.toString()}>
       <div className="tasks-list__content">
         <div className="tasks-list__header">
-          <textarea defaultValue="Todo" className="tasks-list__title"/>
+          <textarea defaultValue={title} className="tasks-list__title"/>
           <div className="tasks-list__extras">X</div>
         </div>
         <div className="tasks-list__cards u-fancy-scrollbar">

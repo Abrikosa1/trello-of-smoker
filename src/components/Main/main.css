@@ -55,3 +55,13 @@ main{
 .icon-add {
   margin-right: 10px;
 }
+.mod-add{
+  background-color: #ebecf0;
+  border-radius: 3px;
+  height: auto;
+  min-height: 32px;
+  padding: 4px;
+  transition: background 85ms ease-in,
+  opacity 40ms ease-in,
+  border-color 85ms ease-in;
+}
