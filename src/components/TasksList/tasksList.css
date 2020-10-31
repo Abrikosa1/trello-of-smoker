@@ -1,4 +1,4 @@
-.todo-list{
+.tasks-list{
   width: 272px;
   margin: 0 4px;
   height: 100%;
@@ -6,10 +6,10 @@
   display: inline-block;
   vertical-align: top;
 }
-.todo-list:first-child {
+.tasks-list:first-child {
   margin-left: 8px;
 }
-.todo-list__content{
+.tasks-list__content{
   background-color: #ebecf0;
   border-radius: 3px;
   box-sizing: border-box;
@@ -19,7 +19,7 @@
   position: relative;
   white-space: normal;
 }
-.todo-list__header{
+.tasks-list__header{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -27,7 +27,7 @@
   position: relative;
   min-height: 20px;
 }
-.todo-list__title{
+.tasks-list__title{
   overflow: hidden;
   overflow-wrap: break-word;
   height: 28px;
@@ -44,10 +44,10 @@
   width: 100%;
   border: none;
 }
-.todo-list__extras {
+.tasks-list__extras {
   padding-left: 30px;
 }
-.todo-list__cards{
+.tasks-list__cards{
   flex: 1 1 auto;
   margin-bottom: 0;
   overflow-y: auto;
@@ -57,13 +57,13 @@
   z-index: 1;
   min-height: 0;
 }
-.todo-list__card-composer{
+.tasks-list__card-composer{
   min-height: 38px;
   max-height: 38px;
   display: flex;
   justify-content: space-between;
 }
-.card-composer__open{
+.tasks-composer__open{
   border-radius: 3px;
   color: #5e6c84;
   display: block;
@@ -76,7 +76,7 @@
   user-select: none;
   align-items: center;
 }
-.card-composer__open .icon-add {
+.tasks-composer__open .icon-add {
   color: #6b778c;
   margin-right: 10px;
 }

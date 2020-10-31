@@ -25,6 +25,7 @@
   text-decoration: none;
   word-wrap: break-word;
   color: #172b4d;
+  margin-left: 10px;
 }
 .card__badges{
   float: left;
@@ -72,4 +73,19 @@
   padding: 0 4px 0 2px;
   vertical-align: top;
   white-space: nowrap;
+}
+.complete{
+  text-decoration: line-through;
+}
+.card__checkbox{
+  opacity: 0;
+  height: 18px;
+  line-height: 18px;
+  width: 18px;
+  opacity: 1;
+  color: #fff;
+}
+.card__header{
+  display: flex;
+  align-items: center;
 }

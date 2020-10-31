@@ -1,24 +1,20 @@
 import React from 'react';
-import Card from 'react-bootstrap/Card';
+import { Task, ToggleCompleted } from '../../types';
 import './taskCard.css';
-const TaskCard: React.FC = () => {
+
+interface ITaskCardProps {
+  task: Task;
+  toggleCompleted: ToggleCompleted;
+};
+
+const TaskCard: React.FC<ITaskCardProps> = ({ task, toggleCompleted }) => {
   return(
-    // <Card style={{ width: '18rem' }}>
-    // <Card>
-    //   <Card.Body>
-    //     <Card.Title>Card Title</Card.Title>
-    //     <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
-    //     <Card.Text>
-    //       Some quick example text to build on the card title and make up the bulk of
-    //       the card's content.
-    //     </Card.Text>
-    //     <Card.Link href="#">Card Link</Card.Link>
-    //     <Card.Link href="#">Another Link</Card.Link>
-    //   </Card.Body>
-    // </Card>
-    <a className="card">
+    <div className="card" key={ task.title }>
       <div className="card__details">
-        <span className="card__title">Чет сделать</span>
+        <div className="card__header">
+          <input className="card__checkbox" type="checkbox" aria-label="Checkbox for following text input" checked={task.complete} onChange={() => toggleCompleted(task)}/>
+          <span className={`card__title ${task.complete ? "complete" : ""}`} >{task.title}</span>
+        </div>
         <div className="card__badges">
           <div className="card__badge">
             <span className="badge__icon badge__icon_sm badge__icon_comment"></span>
@@ -26,7 +22,7 @@ const TaskCard: React.FC = () => {
           </div>
         </div>
       </div>
-    </a>
+    </div>
   );
 }
 

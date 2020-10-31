@@ -2,10 +2,10 @@ import { createContext } from 'react';
 
 interface IContext {
   username: string | null,
-  setUsername: (active:string) => void
+  setUsername: (active: string) => void
 };
 
 export const UserContext = createContext<IContext>({
-  username:'default',
+  username: localStorage.getItem('username') || null,
   setUsername: () => {}
 });
