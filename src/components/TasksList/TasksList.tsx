@@ -12,24 +12,28 @@ interface ITasksListProps {
   setTasks: React.Dispatch<SetStateAction<Array<Task>>>;
   toggleCompleted: ToggleCompleted;
 }
+//todo
 
-
-const TasksList: React.FC<ITasksListProps> = ({ tasks, setTasks, toggleCompleted, id, title }) => {
-  
- 
+const TasksList: React.FC<ITasksListProps> = ({ tasks, id, title, setTasks, toggleCompleted }) => {
+  const[task, setTask] = useState(tasks);
+  console.log(task);
   const [value, setValue] = useState(false);
-  const addCard = (e: any) => {
+  const addCard = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
     setValue(true);
   }
   const { username } = useContext(UserContext);
 
   const addTask: AddTask = (newTask: string) => {
-    setTasks([...tasks, { id: tasks.length + 1, title: newTask, username: username || "", complete: false }]);
-    localStorage.setItem(username || "", JSON.stringify(tasks));
+    setTask([...tasks, { id: task.length + 1, title: newTask, username: username || "", complete: false }]);
+    //localStorage.setItem(username || "", JSON.stringify(tasks));
     setValue(false);
   };
   
+
+ /*------------------------------------------- */
+
+
   return(
     <div className="tasks-list" id={id.toString()}>
       <div className="tasks-list__content">
@@ -38,9 +42,9 @@ const TasksList: React.FC<ITasksListProps> = ({ tasks, setTasks, toggleCompleted
           <div className="tasks-list__extras">X</div>
         </div>
         <div className="tasks-list__cards u-fancy-scrollbar">
-          {tasks.map(task => {
+          {task.map(item => {
             return (
-              <TaskCard key={task.title} task={task} toggleCompleted={toggleCompleted}/>
+              <TaskCard key={item.title} task={item} toggleCompleted={toggleCompleted}/>
             )
           })}
            {value ? <AddTaskform addTask={addTask} /> : ""}

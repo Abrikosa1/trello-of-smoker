@@ -5,7 +5,7 @@ import { UserContext } from './components/UserContext';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { AddList, List, Task } from './types';
+import { List, Task } from './types';
 
 const initialTasks1: Array<Task> = [
   { id: 1, title: '1', username: "vasya", complete: false}, 
@@ -40,7 +40,6 @@ function App() {
           <Header />
         </UserContext.Provider>
         {name ? <Main lists={lists} setLists={setLists}/> : ''}
-        {/* lists={lists} */}
       </div>
     </>
   );

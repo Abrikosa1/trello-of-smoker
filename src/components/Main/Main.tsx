@@ -17,17 +17,16 @@ const initialtodos: Array<Task> = [
 ]
 
 
-localStorage.setItem('sdfsdfsJ', JSON.stringify(initialtodos));
+// localStorage.setItem('sdfsdfsJ', JSON.stringify(initialtodos));
 
 const Main: React.FC<IMainListProps> = ({ lists, setLists }) => {
-  //{ lists }
- // const username: string | null = localStorage.getItem('username');
-
+ 
+console.log(lists);
   //const initialTasks: Array<Task> = JSON.parse(localStorage.getItem('sdfsdfsJ' || '')|| '');
-  const[tasks, setTasks] = useState(initialtodos);
+
 
   //вычеркивание выполненного
-  // const[tasks, setTasks] = useState(initialtodos);
+  const[tasks, setTasks] = useState(initialtodos);
   const toggleCompleted: ToggleCompleted = selectedTask => {
     const updatedTodos = tasks.map(task => {
       if (task === selectedTask) {
@@ -52,22 +51,15 @@ const Main: React.FC<IMainListProps> = ({ lists, setLists }) => {
     setShowForm(true);
   };
 
-
-
-
-
   return(
     <> 
       <main>
         <div id="board" className="board u-fancy-scrollbar">
           {lists.map(list => {
             return (
-              <TasksList id={list.id} tasks={list.tasks} title={list.title} setTasks={setTasks} toggleCompleted={toggleCompleted}/>
+              <TasksList key={list.id} id={list.id} tasks={list.tasks} title={list.title} setTasks={setTasks} toggleCompleted={toggleCompleted}/>
             )
           })}
-          {/* <TasksList id={1} tasks={tasks} setTasks={setTasks} toggleCompleted={toggleCompleted} />
-          <TasksList id={2} tasks={tasks} setTasks={setTasks} toggleCompleted={toggleCompleted} />
-          <TasksList id={3} tasks={tasks} setTasks={setTasks} toggleCompleted={toggleCompleted} /> */}
           <div className={`tasks-list__add-list tasks-list ${showForm ? "mod-add" : ""}`}>
             {showForm ? <AddListForm addList={addList}/> : ''}
             <span className={`add-list__placeholder ${showForm ? "hide" : ""}`} onClick={addListToggle}>
