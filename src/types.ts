@@ -3,6 +3,7 @@ export type Task = {
   title: string;
   username: string;
   complete: boolean;
+  create_time: Date;
 }
 
 export type List = {
@@ -14,5 +15,7 @@ export type List = {
 export type ToggleCompleted = (selectedTodo: Task) => void;
 
 export type AddTask = (newTask: string) => void;
+
+export type DeleteTask = (list_id: number, task_id: number) => void;
 
 export type AddList = (newList: string) => void

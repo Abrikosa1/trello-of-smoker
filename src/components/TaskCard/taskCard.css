@@ -65,9 +65,9 @@
   text-decoration: none;
   vertical-align: bottom;
 }
-.badge__icon_comment::before {
+/* .badge__icon_comment::before {
   content: "\E91C";
-}
+} */
 .badge__text{
   font-size: 12px;
   padding: 0 4px 0 2px;
@@ -88,4 +88,12 @@
 .card__header{
   display: flex;
   align-items: center;
+  justify-content: space-between;
+}
+.icon-delete {
+  font-size: 17px;
+  cursor: pointer;
+}
+.icon-delete:hover {
+  color:rgb(75, 191, 107);
 }

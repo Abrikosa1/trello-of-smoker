@@ -7,28 +7,32 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { List, Task } from './types';
 
+
 const initialTasks1: Array<Task> = [
-  { id: 1, title: '1', username: "vasya", complete: false}, 
-  { id: 2, title: 'Thetitle', username: "vasya", complete: true}, 
-  { id: 3, title: 'title', username: "Вомбат", complete: false, },
+  { id: 1, title: 'Ку-ку', username: "Вомбат", complete: false, create_time: new Date() }, 
+  { id: 2, title: 'Задачка', username: "Не вомбат", complete: true, create_time: new Date() }, 
+  { id: 3, title: 'Еще одна', username: "Вомбат", complete: false, create_time: new Date() },
 ]
 
 const initialTasks2: Array<Task> = [
-  { id: 1, title: 'title1', username: "vasya", complete: false}, 
-  { id: 2, title: 'title2', username: "vasya", complete: true}, 
-  { id: 3, title: 'title3', username: "Вомбат", complete: true, },
-  { id: 4, title: 'title4', username: "dsfafw", complete: true, },
+  { id: 1, title: 'В магз за едой', username: "vasya", complete: false, create_time: new Date() }, 
+  { id: 2, title: 'Приготовить', username: "vasya", complete: true, create_time: new Date() }, 
+  { id: 3, title: 'Съесть', username: "Вомбат", complete: true, create_time: new Date() },
+  { id: 4, title: 'Все', username: "dsfafw", complete: true, create_time: new Date() },
 ]
 
 
 const initialLists: Array<List> = [
-  { id: 1, title: 'Number1', tasks : initialTasks1 },
-  { id: 2, title: 'Number2', tasks : initialTasks2 },
+  { id: 1, title: 'TODO', tasks : initialTasks1 },
+  { id: 2, title: 'In Progress', tasks : initialTasks2 },
+  { id: 3, title: 'Testing', tasks : [] },
+  { id: 4, title: 'Done', tasks : [] }
 ]
 
 if(!localStorage.getItem('lists')) {
   localStorage.setItem('lists', JSON.stringify(initialLists));
 }  
+
 
 function App() {
   const listsData = JSON.parse(localStorage.getItem('lists') || '');

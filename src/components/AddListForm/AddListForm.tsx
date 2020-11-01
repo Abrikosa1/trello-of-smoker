@@ -1,5 +1,5 @@
-import React, { SetStateAction, useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
+import React, { SetStateAction, useRef, useState } from 'react';
+import { Form, Button, Overlay, Tooltip } from 'react-bootstrap';
 import { AddList } from '../../types';
 
 interface IAddListFormProps {
@@ -10,13 +10,24 @@ interface IAddListFormProps {
 const AddListForm: React.FC<IAddListFormProps> = ({ addList, setShowForm }) => {
   const [newList, setNewList] = useState('');
 
+
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewList(e.target.value);
   };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    addList(newList);
+    const regExp = /^[a-zA-Zа-яА-ЯеЁ0-9-_.]{2,20}$/;
+    if(regExp.test(newList)) {
+      addList(newList);
+    }
+    else {
+      setShow(!show);
+      setTimeout(() => setShow(show), 3000);
+    }
   };
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     console.log(e.target)
@@ -31,9 +42,16 @@ const AddListForm: React.FC<IAddListFormProps> = ({ addList, setShowForm }) => {
           placeholder="Enter list title..." 
        />
         <Form.Group style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px'}}>
-          <Button variant="primary" type="submit" onClick={handleSubmit} style={{ marginTop: '8px' }}>
+          <Button variant="primary" type="submit" onClick={handleSubmit} ref={target} style={{ marginTop: '8px' }}>
             Submit
           </Button>
+          <Overlay target={target.current} show={show} placement="bottom">
+            {(props) => (
+              <Tooltip id="overlay-example" {...props}>
+                Может лучше ввести что-нибудь?
+              </Tooltip>
+            )}
+          </Overlay>
           <Button variant="danger" type="submit" onClick={handleCancel} style={{ marginTop: '8px' }} >
             Cancel
           </Button>

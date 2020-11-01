@@ -7,23 +7,25 @@ const NameModal: React.FC = () => {
   let inputUsername: string;
 
   const { setUsername } = useContext(UserContext);
-  
+
 
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
 
   const changeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    inputUsername = e.target.value.trim();
+      inputUsername = e.target.value.trim();
   }
 
   const submitModal = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setUsername(inputUsername);
-    localStorage.setItem('username', inputUsername);
-    handleClose();
+    const regExp: RegExp = /^[a-zA-Zа-яА-ЯЁё0-9-_.]{1,20}$/;
+    if(regExp.test(inputUsername)) {
+      setUsername(inputUsername);
+      localStorage.setItem('username', inputUsername);
+      handleClose();
+    }
   };
 
   useEffect(()=>{
