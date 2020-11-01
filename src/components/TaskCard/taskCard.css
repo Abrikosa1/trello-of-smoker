@@ -25,7 +25,7 @@
   text-decoration: none;
   word-wrap: break-word;
   color: #172b4d;
-  margin-left: 10px;
+  /* margin-left: 10px; */
 }
 .card__badges{
   float: left;

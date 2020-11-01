@@ -24,11 +24,15 @@ const initialTasks2: Array<Task> = [
 const initialLists: Array<List> = [
   { id: 1, title: 'Number1', tasks : initialTasks1 },
   { id: 2, title: 'Number2', tasks : initialTasks2 },
-
 ]
 
+if(!localStorage.getItem('lists')) {
+  localStorage.setItem('lists', JSON.stringify(initialLists));
+}  
+
 function App() {
-  const[lists, setLists] = useState(initialLists);
+  const listsData = JSON.parse(localStorage.getItem('lists') || '');
+  const[lists, setLists] = useState(listsData);
   const name = localStorage.getItem('username');
   const [username, setUsername] = useState(name);
 

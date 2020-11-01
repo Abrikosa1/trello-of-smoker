@@ -1,5 +1,5 @@
-import React, { SetStateAction, useState } from 'react';
-import { AddList, List, Task, ToggleCompleted } from '../../types';
+import React, { SetStateAction, useEffect, useState } from 'react';
+import { AddList, List } from '../../types';
 import AddListForm from '../AddListForm/AddListForm';
 import TasksList from '../TasksList/TasksList';
 
@@ -10,40 +10,31 @@ interface IMainListProps {
   setLists: React.Dispatch<SetStateAction<Array<List>>>;
 }
 
-const initialtodos: Array<Task> = [
-  { id: 1, title: '1', username: "vasya", complete: false}, 
-  { id: 2, title: 'Thetitle', username: "vasya", complete: true}, 
-  { id: 1, title: 'title', username: "Вомбат", complete: false, },
-]
-
-
-// localStorage.setItem('sdfsdfsJ', JSON.stringify(initialtodos));
-
 const Main: React.FC<IMainListProps> = ({ lists, setLists }) => {
  
-console.log(lists);
-  //const initialTasks: Array<Task> = JSON.parse(localStorage.getItem('sdfsdfsJ' || '')|| '');
-
-
   //вычеркивание выполненного
-  const[tasks, setTasks] = useState(initialtodos);
-  const toggleCompleted: ToggleCompleted = selectedTask => {
-    const updatedTodos = tasks.map(task => {
-      if (task === selectedTask) {
-        task.complete = !task.complete;
-        return task;
-      }
-      return task;
-    });
-    setTasks(updatedTodos);
-  };
+
+  //const[tasks, setTasks] = useState(initialtodos);
+  // const toggleCompleted: ToggleCompleted = selectedTask => {
+  //   const updatedTodos = tasks.map(task => {
+  //     if (task === selectedTask) {
+  //       task.complete = !task.complete;
+  //       return task;
+  //     }
+  //     return task;
+  //   });
+  //   setTasks(updatedTodos);
+  // };
 
 
   const addList: AddList = newList => {
     setLists([...lists, { id: lists.length + 1, title: newList, tasks : [] }]);
-    //localStorage.setItem(username || "", JSON.stringify(tasks));
-    //setValue(false);
+    setShowForm(false);
   };
+
+  useEffect(() => {
+    localStorage.setItem('lists' || "", JSON.stringify(lists));
+  }, [lists]);
 
   const [showForm, setShowForm] = useState(false);
   const addListToggle = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -57,14 +48,15 @@ console.log(lists);
         <div id="board" className="board u-fancy-scrollbar">
           {lists.map(list => {
             return (
-              <TasksList key={list.id} id={list.id} tasks={list.tasks} title={list.title} setTasks={setTasks} toggleCompleted={toggleCompleted}/>
+              <TasksList key={list.id} lists={lists} setLists={setLists} id={list.id} tasks={list.tasks} title={list.title} list={list} />
+              /*setTasks={setTasks} toggleCompleted={toggleCompleted}*/
             )
           })}
           <div className={`tasks-list__add-list tasks-list ${showForm ? "mod-add" : ""}`}>
-            {showForm ? <AddListForm addList={addList}/> : ''}
+            {showForm ? <AddListForm addList={addList} setShowForm={setShowForm}/> : ''}
             <span className={`add-list__placeholder ${showForm ? "hide" : ""}`} onClick={addListToggle}>
               <span className="icon-sm icon-add"></span>
-              Add another list
+              {lists ? 'Add another list' : 'Add list '}
             </span>
           </div>
         </div>

@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { AddTask } from '../../types';
 import './addTaskform.css';
 
 interface IAddTaskFormProps {
   addTask: AddTask;
+  setOpened: React.Dispatch<SetStateAction<boolean>>;
 }
 
-const AddTaskform: React.FC<IAddTaskFormProps> = ({ addTask }) => {
+const AddTaskform: React.FC<IAddTaskFormProps> = ({ addTask, setOpened }) => {
   const [newTask, setNewTask] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTask(e.target.value);
-  }
+  };
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     addTask(newTask);
-  }
+  };
+
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    setOpened(false);
+  };
+
+
   return(
      <div className="task-card__composer">
        <div className="card">
@@ -30,9 +38,14 @@ const AddTaskform: React.FC<IAddTaskFormProps> = ({ addTask }) => {
                 placeholder="Enter a title for this card…" 
                 as="textarea" 
                 rows={3} />
-                <Button variant="primary" type="submit" onClick={handleSubmit}>
-                  Submit
-                </Button>
+                <Form.Group style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+                  <Button variant="primary" type="submit" onClick={handleSubmit}>
+                    Submit
+                  </Button>
+                  <Button variant="danger" type="submit" onClick={handleCancel}>
+                    Cancel
+                  </Button>
+                </Form.Group>
               </Form.Group>
             </Form>
           </div>
