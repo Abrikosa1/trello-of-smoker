@@ -5,6 +5,7 @@ import { AddTask, DeleteTask, List, Task } from '../../types';
 import AddTaskform from '../AddTaskForm/AddTaskform';
 import { UserContext } from '../UserContext';
 
+
 interface ITasksListProps {
   id: number;
   title: string;
@@ -18,6 +19,7 @@ interface ITasksListProps {
 //todo
 
 const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, setLists }) => {
+
   const[task, setTask] = useState(tasks);
 
   const [opened, setOpened] = useState(false);
@@ -25,6 +27,10 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
     e.preventDefault();
     setOpened(true);
   }
+
+
+
+
   const { username } = useContext(UserContext);
   
   const addTask: AddTask = (newTask: string) => {
@@ -49,7 +55,7 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
   }
 
   const handleDeleteList = (e: React.MouseEvent<HTMLSpanElement>) => {
-    console.log('А вот пока нет удаления');
+    console.log('А вот нет пока удаления');
   };
 
   const renameList = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -58,7 +64,7 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
   }
 
   return(
-    <div className="tasks-list" id={id.toString()}>
+    <div className="tasks-list" id={id.toString()} >
       <div className="tasks-list__content">
         <div className="tasks-list__header">
           <textarea spellCheck="false" className="tasks-list__title" defaultValue={title} onChange={renameList}/>

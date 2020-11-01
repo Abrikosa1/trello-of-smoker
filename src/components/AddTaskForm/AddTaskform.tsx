@@ -1,6 +1,7 @@
-import React, { SetStateAction, useRef, useState } from 'react';
+import React, { SetStateAction, useEffect, useRef, useState } from 'react';
 import { Button, Form, Overlay, Tooltip } from 'react-bootstrap';
 import { AddTask } from '../../types';
+
 import './addTaskform.css';
 
 interface IAddTaskFormProps {
@@ -9,18 +10,21 @@ interface IAddTaskFormProps {
 }
 
 const AddTaskform: React.FC<IAddTaskFormProps> = ({ addTask, setOpened }) => {
+
+  const [showAddForm, setShowAddForm] = useState(true);
+  const ref = useRef<HTMLDivElement>(null);
+  
+  //Show tooltip
+  const [show, setShow] = useState(false);
+  const target = useRef(null);
+
+
+  //add task
   const [newTask, setNewTask] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTask(e.target.value);
   };
-
-
-
-
-  const [show, setShow] = useState(false);
-  const target = useRef(null);
-
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -33,15 +37,27 @@ const AddTaskform: React.FC<IAddTaskFormProps> = ({ addTask, setOpened }) => {
     }
   };
 
-  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleCancel = (e: any) => {
     e.preventDefault();
-    setOpened(false);
+    if (ref.current && !ref.current.contains(e.target)) {
+      console.log("1");
+      setOpened(false);
+      //setShowAddForm(false);
+    }
   };
 
+  useEffect(() => {
+    document.addEventListener("click", handleCancel);
+
+    return () => {
+      document.removeEventListener("click", handleCancel);
+    };
+  });
   
   return(
-     <div className="task-card__composer">
-       <div className="card">
+     <div className="task-card__composer" >
+       {showAddForm && (
+       <div  className="card" ref={ref}>
          <div className="card__details">
             <Form className="card-add__form">
               <Form.Group controlId="exampleForm.ControlTextarea1" style={{ marginBottom: '3px' }}>
@@ -70,7 +86,7 @@ const AddTaskform: React.FC<IAddTaskFormProps> = ({ addTask, setOpened }) => {
               </Form.Group>
             </Form>
           </div>
-      </div>
+      </div>)}
     </div>
   );
 }
