@@ -1,4 +1,4 @@
-import React, { SetStateAction, useContext, useState } from 'react';
+import React, { SetStateAction, useContext, useEffect, useRef, useState } from 'react';
 import './tasksList.css';
 import TaskCard from '../TaskCard/TaskCard';
 import { AddTask, DeleteTask, List, Task } from '../../types';
@@ -16,7 +16,6 @@ interface ITasksListProps {
   //setTasks: React.Dispatch<SetStateAction<Array<Task>>>;
   // toggleCompleted: ToggleCompleted;
 }
-//todo
 
 const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, setLists }) => {
 
@@ -28,32 +27,28 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
     setOpened(true);
   }
 
-
-
-
   const { username } = useContext(UserContext);
   
   const addTask: AddTask = (newTask: string) => {
     console.log(list.tasks);
-    const added = { id: tasks.length + 1, title: newTask, username: username || "", complete: false, create_time: new Date() };
+    const added = { id: tasks.length + 1, title: newTask, description: "", username: username || "", complete: false, create_time: new Date() };
     setTask([...tasks, added]);
     list.tasks.push(added);
     localStorage.setItem('lists' || "", JSON.stringify(lists));
-    setOpened(false);
+    setOpened(!opened);
   };
 
   
   const deleteTask: DeleteTask = (list_id: number, task_id: number) => {
-      const newTasksList = task.filter(item => {
-        return item.id !== task_id 
-      });
-      setTask(newTasksList);
-      console.log(task);
-      list.tasks = newTasksList;
+    const newTasksList = task.filter(item => {
+      return item.id !== task_id 
+    });
+    setTask(newTasksList);
+    list.tasks = newTasksList;
 
-      localStorage.setItem('lists' || "", JSON.stringify(lists));
+    localStorage.setItem('lists' || "", JSON.stringify(lists));
   }
-
+  
   const handleDeleteList = (e: React.MouseEvent<HTMLSpanElement>) => {
     console.log('А вот нет пока удаления');
   };
@@ -63,6 +58,21 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
     localStorage.setItem('lists' || "", JSON.stringify(lists));
   }
 
+  const ref = useRef<HTMLDivElement>(null);
+  const handleOutsideclick = (e: any) => {
+    
+    if (ref.current && !ref.current.contains(e.target)) {
+      setOpened(!opened);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleOutsideclick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideclick);
+    };
+  });
   return(
     <div className="tasks-list" id={id.toString()} >
       <div className="tasks-list__content">
@@ -73,18 +83,20 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
         <div className="tasks-list__cards u-fancy-scrollbar">
           {task.map(item => {
             return (
-              <TaskCard key={item.id} list_id={id} task={item} deleteTask={deleteTask}/>
+              <TaskCard key={item.id} list={list} task={item} deleteTask={deleteTask}/>
               //toggleCompleted={toggleCompleted}
             )
           })}
-           {opened ? <AddTaskform addTask={addTask} setOpened={setOpened}/> : ""}
+          
+           {opened ? <div ref={ref}><AddTaskform addTask={addTask} setOpened={setOpened} /></div> : ""}
+          
         </div>
-        <div className={`tasks-list__card-composer ${opened ? "hide" : ""}`}>
+        {!opened ? <div className='tasks-list__card-composer '>
           <div className="tasks-composer__open">
             <span className="icon-sm icon-add"></span>
             <span className="js-add-another-card" onClick={addCard}>{tasks.length > 0 ? 'Add another card' : 'Add card'}</span>
-          </div>
-        </div>
+          </div> 
+        </div>: ""}
       </div>
     </div>
   )

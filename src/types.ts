@@ -1,6 +1,7 @@
 export type Task = {
   id: number;
   title: string;
+  description: string;
   username: string;
   complete: boolean;
   create_time: Date;

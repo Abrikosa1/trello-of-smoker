@@ -9,16 +9,16 @@ import { List, Task } from './types';
 
 
 const initialTasks1: Array<Task> = [
-  { id: 1, title: 'Ку-ку', username: "Вомбат", complete: false, create_time: new Date() }, 
-  { id: 2, title: 'Задачка', username: "Не вомбат", complete: true, create_time: new Date() }, 
-  { id: 3, title: 'Еще одна', username: "Вомбат", complete: false, create_time: new Date() },
+  { id: 1, title: 'Ку-ку', description: "Да-да, куку", username: "Вомбат", complete: false, create_time: new Date() }, 
+  { id: 2, title: 'Задачка', description: "И кто-то должен ее сделать", username: "Не вомбат", complete: true, create_time: new Date() }, 
+  { id: 3, title: 'Еще одна', description: "И эту тоже", username: "Вомбат", complete: false, create_time: new Date() },
 ]
 
 const initialTasks2: Array<Task> = [
-  { id: 1, title: 'В магз за едой', username: "vasya", complete: false, create_time: new Date() }, 
-  { id: 2, title: 'Приготовить', username: "vasya", complete: true, create_time: new Date() }, 
-  { id: 3, title: 'Съесть', username: "Вомбат", complete: true, create_time: new Date() },
-  { id: 4, title: 'Все', username: "dsfafw", complete: true, create_time: new Date() },
+  { id: 1, title: 'В магз за едой', description: "Не забыть пельмени", username: "vasya", complete: false, create_time: new Date() }, 
+  { id: 2, title: 'Приготовить', description: "Описание Описание Описание Описание Описание Описание Описание", username: "vasya", complete: true, create_time: new Date() }, 
+  { id: 3, title: 'Съесть', description: "Съееесть", username: "Вомбат", complete: true, create_time: new Date() },
+  { id: 4, title: 'Все', description: "Кайфовать, в общем", username: "dsfafw", complete: true, create_time: new Date() },
 ]
 
 

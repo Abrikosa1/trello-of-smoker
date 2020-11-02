@@ -30,7 +30,6 @@ const AddListForm: React.FC<IAddListFormProps> = ({ addList, setShowForm }) => {
     }
   };
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e.target)
     setShowForm(false);
   };
   return(
