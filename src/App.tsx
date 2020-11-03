@@ -29,6 +29,8 @@ const initialLists: Array<List> = [
   { id: 4, title: 'Done', tasks : [] }
 ]
 
+
+
 if(!localStorage.getItem('lists')) {
   localStorage.setItem('lists', JSON.stringify(initialLists));
 }  
@@ -36,7 +38,7 @@ if(!localStorage.getItem('lists')) {
 
 function App() {
   const listsData = JSON.parse(localStorage.getItem('lists') || '');
-  const[lists, setLists] = useState(listsData);
+  const [lists, setLists] = useState(listsData);
   const name = localStorage.getItem('username');
   const [username, setUsername] = useState(name);
 

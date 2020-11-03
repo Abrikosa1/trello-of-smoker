@@ -18,7 +18,20 @@ interface ITasksListProps {
 }
 
 const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, setLists }) => {
+    //  let arr = {
+    //   id: 1,
+    //   name: 'name1'};
+    // const [state, setState] = useState(arr);
+    // let name = "Denis";
+    // setState({...state, name: name});
+    // console.log(state);
 
+
+
+
+
+
+  //console.log(lists);
   const[task, setTask] = useState(tasks);
 
   const [opened, setOpened] = useState(false);
@@ -32,12 +45,13 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
   const addTask: AddTask = (newTask: string) => {
     console.log(list.tasks);
     const added = { id: tasks.length + 1, title: newTask, description: "", username: username || "", complete: false, create_time: new Date() };
-    setTask([...tasks, added]);
+    setTask(tasks => [...tasks, added]);
     list.tasks.push(added);
     localStorage.setItem('lists' || "", JSON.stringify(lists));
     setOpened(!opened);
   };
 
+  
   
   const deleteTask: DeleteTask = (list_id: number, task_id: number) => {
     const newTasksList = task.filter(item => {
@@ -45,7 +59,6 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
     });
     setTask(newTasksList);
     list.tasks = newTasksList;
-
     localStorage.setItem('lists' || "", JSON.stringify(lists));
   }
   
@@ -53,10 +66,24 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
     console.log('А вот нет пока удаления');
   };
 
+
+  //const localLists = JSON.parse(localStorage.getItem('lists') || '') || '';
+  //let [userData, setUserData] = useState(localLists);
+  //console.log(localLists);
+  const listTitleInput = useRef<HTMLTextAreaElement>(null);
   const renameList = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    list.title = e.target.value;
-    localStorage.setItem('lists' || "", JSON.stringify(lists));
+    if(e.target.value.length > 0) {
+      setLists(lists.map(item => 
+                    item.id === id
+                    ? {...item, title: e.target.value}
+                    : item
+      ));
+    } else {
+      listTitleInput.current!.focus();
+    }
   }
+
+
 
   const ref = useRef<HTMLDivElement>(null);
   const handleOutsideclick = (e: any) => {
@@ -77,7 +104,7 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
     <div className="tasks-list" id={id.toString()} >
       <div className="tasks-list__content">
         <div className="tasks-list__header">
-          <textarea spellCheck="false" className="tasks-list__title" defaultValue={title} onChange={renameList}/>
+          <textarea ref={listTitleInput} required className="tasks-list__title" defaultValue={title} onChange={renameList}/>
           <span className="icon-sm icon-delete" onClick={handleDeleteList}>&#10006;</span>
         </div>
         <div className="tasks-list__cards u-fancy-scrollbar">

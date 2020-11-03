@@ -27,6 +27,7 @@ const Main: React.FC<IMainListProps> = ({ lists, setLists }) => {
   // };
 
 
+
   const addList: AddList = newList => {
     setLists([...lists, { id: lists.length + 1, title: newList, tasks : [] }]);
     setShowForm(false);

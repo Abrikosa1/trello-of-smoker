@@ -41,6 +41,7 @@ const NameModal: React.FC = () => {
         onHide={handleClose}
         backdrop="static"
         keyboard={false}
+        animation={false}
         centered 
       >
         <Modal.Header closeButton>

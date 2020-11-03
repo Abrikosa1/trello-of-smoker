@@ -6,6 +6,12 @@
   position: relative;
   width: 768px;
   z-index: 25;
+  width: 90%;
+  
+}
+.task-modal__wrapper.modal-content {
+  background-color: #f4f5f7;
+  border: none !important;
 }
 .task-modal__close {
   color: #42526e;
@@ -27,6 +33,7 @@
 }
 .task-details {
   min-height: 600px;
+  background-color: #f4f5f7;
 }
 .u-clearfix:after {
   clear: both;
@@ -94,6 +101,7 @@
   margin: 0 0 0px 40px;
 }
 .task-description__icon {
+  top: 5px;
   left: -40px;
   position: absolute;
   height: 32px;
@@ -147,4 +155,103 @@
 .task-description__text {
   margin-left: 40px;
   cursor: pointer;
+}
+.task-description__author-icon {
+  top: 5px;
+  left: -40px;
+  position: absolute;
+  height: 32px;
+  line-height: 32px;
+  width: 32px;
+  font-size: 20px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  font-family: trellicons;
+  font-style: normal;
+  font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+  vertical-align: bottom;
+}
+.task-details__task-activities {
+  clear: both;
+  margin-bottom: 24px;
+  position: relative;
+}
+.task-comments {
+  position: relative;
+  /* margin: 0 0 8px 40px; */
+}
+.task-comment__author {
+  position: absolute;
+  left: -40px;
+}
+.author-initials {
+  line-height: 32px;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  font-size: 16px;
+  font-weight: 700;
+  height: 32px;
+}
+.comment-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px -1px rgba(9, 30, 66, .25),
+  0 0 0 1px rgba(9, 30, 66, .08);
+  margin: 4px 4px 12px 0;
+  overflow: hidden;
+  position: relative;
+  transition: box-shadow 85ms ease;
+  padding: 8px 12px;
+  min-height: 100px;
+  position: relative;
+  transition-duration: 85ms;
+  transition-timing-function: ease;
+  transition-property: padding-bottom;
+}
+.comment-box__input {
+  overflow: hidden;
+  overflow-wrap: break-word;
+  border: 0;
+  box-shadow: none;
+  background: #fff !important;
+  box-sizing: content-box;
+  box-shadow: none;
+  margin: 0;
+  /* min-height: 25px; */
+  padding: 0;
+  width: 100%;
+  resize: none;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.comment-box__input:focus {
+  outline: 0;
+  box-shadow: none;
+}
+.comment-box__save{
+  display: flex;
+  justify-content: space-between;
+}
+.author {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+.delete-button {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  color: #fff;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+.delete-button:hover {
+  background-color: #CD2F3E;
 }
