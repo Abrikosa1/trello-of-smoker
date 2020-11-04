@@ -1,32 +1,36 @@
 import React, { SetStateAction, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { DeleteTask, List, Task } from '../../types';
+import { DeleteTask, List, RenameTask, Task } from '../../types';
 import './taskModal.css';
 
 interface ITaskModal {
   task: Task;
   deleteTask: DeleteTask;
-  //taskModalShow: boolean;
+  taskModalShow: boolean;
   setTaskModalShow: React.Dispatch<SetStateAction<boolean>>;
   list: List;
   setName: React.Dispatch<SetStateAction<Task>>;
+  setTask: React.Dispatch<SetStateAction<Array<Task>>>;
+  renameTask: RenameTask;
 }
 
-const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalShow, setName }) => {
+const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, taskModalShow, setTaskModalShow, renameTask }) => {
   //console.log(list, task.id);
+  console.log(task.comments.map(item => item));
   const ref = useRef(null);
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(taskModalShow);
   const handleCloseModal = (e: React.MouseEvent<HTMLSpanElement>) => {
+    console.log('close');
     setShow(false);
-    //setTaskModalShow(prev => !prev);
+    setTaskModalShow(false);
+    // show:boolean = false;
+    taskModalShow = false;
     
   };
 
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setName({...task, title: e.target.value});
-    //console.log(e.target.value);
-    //list.title = e.target.value;
+    renameTask(list.id,task.id, e.target.value);
   };
 
   
@@ -37,7 +41,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalS
   };
   return (
     <Modal
-      show={show}
+      show={taskModalShow}
       onHide={handleCloseModal}
       aria-labelledby="example-custom-modal-styling-title"
       dialogClassName="task-modal__wrapper"
@@ -50,7 +54,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalS
           <div className="task-details__header">
             <span className="task-details__icon">&#128073;</span>
             <div className="task-details__title">
-              <textarea defaultValue={task.title} className="task-details__title task-details__input" onChange={handleTitleChange}></textarea>
+              <textarea value={task.title} className="task-details__title task-details__input" onChange={handleTitleChange} required></textarea>
             </div>
             <div className="task-details__list-info">
               <p className="u-inline-block u-bottom">in list <a href="#" className="js-open-move-from-header">{list.title}</a></p>
@@ -91,7 +95,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalS
               <div className="task-comments">
                 <form>
                   <div className="comment-box">
-                    <textarea className="comment-box__input" placeholder="Write a comment…" onKeyUp={textAreaAdjust}>
+                    <textarea className="comment-box__input"  placeholder="Write a comment…" onKeyUp={textAreaAdjust}>
                     </textarea>
                     <div className="comment-box__save">
                       <input className="" disabled={true} type="submit" value="Save"></input>
@@ -101,6 +105,11 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalS
                 </form>
               </div>
               {/* <!-- /.task-comments --> */}
+              <ul>
+                {task.comments.map(comment => {
+                  return (<li key={`dsfds' + ${Math.floor(Math.random() * 10)}`}>{comment.text}</li>)
+                })}
+              </ul>
               
             </div>
 
