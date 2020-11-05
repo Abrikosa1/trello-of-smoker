@@ -10,14 +10,14 @@ import { List, Task, Comment } from './types';
 
 const initialComments1: Array<Comment> = [
   { id: 1, text: 'Ку-ку', author: "Ya", create_time: new Date() }, 
-  { id: 1, text: 'Вот это задачка', author: "Вомбат", create_time: new Date() }, 
-  { id: 1, text: 'Блин, походу не сделаю', author: "Ya", create_time: new Date() }, 
+  { id: 2, text: 'Вот это задачка', author: "Вомбат", create_time: new Date() }, 
+  { id: 3, text: 'Блин, походу не сделаю', author: "Ya", create_time: new Date() }, 
 ]
 
 const initialComments2: Array<Comment> = [
   { id: 1, text: 'Коммент1', author: "Ya", create_time: new Date() }, 
-  { id: 1, text: 'Коммент2', author: "ывавыа", create_time: new Date() }, 
-  { id: 1, text: 'Коммент3', author: "Ya", create_time: new Date() }, 
+  { id: 2, text: 'Коммент2', author: "ывавыа", create_time: new Date() }, 
+  { id: 3, text: 'Коммент3', author: "Ya", create_time: new Date() }, 
 ]
 
 const initialTasks1: Array<Task> = [
@@ -40,10 +40,6 @@ const initialLists: Array<List> = [
   { id: 3, title: 'Testing', tasks : [] },
   { id: 4, title: 'Done', tasks : [] }
 ]
-
-
-
-
 
 if(!localStorage.getItem('lists')) {
   localStorage.setItem('lists', JSON.stringify(initialLists));

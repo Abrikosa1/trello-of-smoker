@@ -1,7 +1,7 @@
 import React, { SetStateAction, useContext, useEffect, useRef, useState } from 'react';
 import './tasksList.css';
 import TaskCard from '../TaskCard/TaskCard';
-import { AddTask, DeleteList, DeleteTask, List, RenameList, RenameTask, Task } from '../../types';
+import { AddTask, DeleteList, DeleteTask, List, RenameList, Task } from '../../types';
 import AddTaskform from '../AddTaskForm/AddTaskform';
 import { UserContext } from '../UserContext';
 

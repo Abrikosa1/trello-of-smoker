@@ -77,6 +77,13 @@
   display: inline-block;
   margin: 4px 8px 4px 2px;
 }
+.task-details__list-name{
+  cursor: pointer;
+  text-decoration: underline;
+}
+.task-details__list-name:hover {
+  color: blue;
+}
 .task-details__main {
   float: left;
   margin: 0;
@@ -254,4 +261,7 @@
 }
 .delete-button:hover {
   background-color: #CD2F3E;
+}
+.comments-box:last-child {
+  margin-bottom: 0px;
 }

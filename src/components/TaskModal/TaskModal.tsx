@@ -1,6 +1,8 @@
-import React, { SetStateAction, useRef, useState } from 'react';
+import React, { SetStateAction, useContext, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { DeleteTask, List, RenameTask, Task } from '../../types';
+import CommentComponent from '../Comment/CommentComponent';
+import { UserContext } from '../UserContext';
 import './taskModal.css';
 
 interface ITaskModal {
@@ -9,32 +11,25 @@ interface ITaskModal {
   taskModalShow: boolean;
   setTaskModalShow: React.Dispatch<SetStateAction<boolean>>;
   list: List;
-  setName: React.Dispatch<SetStateAction<Task>>;
   setTask: React.Dispatch<SetStateAction<Array<Task>>>;
   renameTask: RenameTask;
 }
 
-const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, taskModalShow, setTaskModalShow, renameTask }) => {
-  //console.log(list, task.id);
-  console.log(task.comments.map(item => item));
+const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalShow, renameTask, taskModalShow}) => {
   const ref = useRef(null);
-  const [show, setShow] = useState(taskModalShow);
-  const handleCloseModal = (e: React.MouseEvent<HTMLSpanElement>) => {
-    console.log('close');
-    setShow(false);
+
+  const handleCloseModal = () => {
     setTaskModalShow(false);
-    // show:boolean = false;
-    taskModalShow = false;
-    
-  };
+  }
 
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     renameTask(list.id,task.id, e.target.value);
   };
 
-  
-  const author: string | '' = localStorage.getItem('username') || '';
+  const currentUser = useContext(UserContext);
+  const author = currentUser.username;
+  //const author: string | '' = localStorage.getItem('username') || '';
   const textAreaAdjust = (e: any) => {
     e.target.style.height = '1px';
     e.target.style.height = (25 + e.target.scrollHeight) +'px';
@@ -57,7 +52,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, taskModalShow
               <textarea value={task.title} className="task-details__title task-details__input" onChange={handleTitleChange} required></textarea>
             </div>
             <div className="task-details__list-info">
-              <p className="u-inline-block u-bottom">in list <a href="#" className="js-open-move-from-header">{list.title}</a></p>
+              <p className="u-inline-block u-bottom">in list <span className="task-details__list-name">{list.title}</span></p>
             </div>
           </div>
           {/* <input type="text" onChange={e => setName(e.target.value)} /> */}
@@ -88,7 +83,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, taskModalShow
             <div className="task-details__task-activities">
 
               <div className="task-description__title task-description__title_author">
-                <span className="task-description__icon">&#128489;</span>
+                <span className="task-description__icon">&#128491;</span>
                 <h3 className="task-description__heading">Activity</h3>
               </div>
 
@@ -99,18 +94,17 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, taskModalShow
                     </textarea>
                     <div className="comment-box__save">
                       <input className="" disabled={true} type="submit" value="Save"></input>
-                      <p className="author">author:&nbsp;<span className="author-initials" title={author} aria-label={author}>{" " + author}</span></p>
+                      <p className="author">author:&nbsp;<span className="author-initials" title={author!} aria-label={author!}>{" " + author}</span></p>
                     </div>
                   </div>
                 </form>
               </div>
               {/* <!-- /.task-comments --> */}
-              <ul>
+              <div className="comments-box">
                 {task.comments.map(comment => {
-                  return (<li key={`dsfds' + ${Math.floor(Math.random() * 10)}`}>{comment.text}</li>)
-                })}
-              </ul>
-              
+                  return (<CommentComponent key={comment.id} comment={comment}/>)
+                })}   
+              </div>                        
             </div>
 
           </div>

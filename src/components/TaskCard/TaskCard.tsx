@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import { DeleteTask, List, RenameTask, Task } from '../../types';
 import TaskModal from '../TaskModal/TaskModal';
 import './taskCard.css';
@@ -26,16 +26,10 @@ const TaskCard: React.FC<ITaskCardProps> = ({ task, deleteTask, list, setTask, s
   const handleShowModal = (e: React.MouseEvent<HTMLDivElement>) => {
     setTaskModalShow(true);
   };
-  // useEffect(() => {
-  //   setTaskModalShow(false);
-  // }, [taskModalShow]);
+
 
   const [name, setName] = useState(task);
 
-
-  // const localLists = JSON.parse(localStorage.getItem('lists') || '') || '';
-  // let [userData, setUserData] = useState(localLists);
-  // console.log(localLists);
 
  const renameTask: RenameTask = (list_id: number, task_id: number, newTitle: string) => {
   task.title = newTitle;
@@ -53,7 +47,8 @@ const TaskCard: React.FC<ITaskCardProps> = ({ task, deleteTask, list, setTask, s
     setLists([...newArr]);
   }
 
-  return(
+  return( 
+    <>
     <div className="card" key={ task.title } onClick={handleShowModal}>
       <div className="card__details">
         <div className="card__header">
@@ -64,12 +59,13 @@ const TaskCard: React.FC<ITaskCardProps> = ({ task, deleteTask, list, setTask, s
         <div className="card__badges">
           <div className="card__badge">
             <span className="badge__icon badge__icon_sm badge__icon_comment" >&#128489;</span>
-            <span className="badge__text" >1</span>
+            <span className="badge__text">{task.comments.length}</span>
           </div>
         </div>
       </div>
-      {taskModalShow ? <TaskModal taskModalShow={taskModalShow}  renameTask={renameTask} setTask={setTask} setName={setName} task={task} list={list} deleteTask={deleteTask} setTaskModalShow={setTaskModalShow}/> : ""} 
     </div>
+    <TaskModal taskModalShow={taskModalShow} setTaskModalShow={setTaskModalShow} renameTask={renameTask} setTask={setTask} task={task} list={list} deleteTask={deleteTask} />
+  </>
   );
 }
 
