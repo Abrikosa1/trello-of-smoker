@@ -20,7 +20,7 @@ const Header: React.FC = () => {
     </style>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="justify-content-between">
 
-        <Navbar.Brand href="#home" >Trello(no)</Navbar.Brand>
+        <Navbar.Brand>Trello(no)</Navbar.Brand>
   
         <Navbar.Text >
           Signed in as: <Badge pill variant="info" className="badge-xxl" >{username ? username : 'Неопознанный вомбат'}</Badge>

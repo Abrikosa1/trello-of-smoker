@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Comment } from '../../types';
+import { UserContext } from '../UserContext';
 import './commentComponent.css'
 
 interface IComment {
@@ -8,13 +9,11 @@ interface IComment {
 
 const CommentComponent: React.FC<IComment> = ( {comment} ) => {
 
+  const author = useContext(UserContext);
   const date: Date = new Date(comment.create_time);
   const month = date.toLocaleString('en-en', { month: 'short' });
   const day = date.getDate();
   const time = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-  console.log(day);
-  // let date2 = comment.create_time;
-  // console.log(comment.create_time);
   return (
     <div key={comment.id} className="comment__wrapper">
       <div className="comment__header">
@@ -27,9 +26,10 @@ const CommentComponent: React.FC<IComment> = ( {comment} ) => {
           <p className="comment__text">{comment.text}</p>
         </div>
       </div>
-      {/* <div className="comment__footer">
-        <span>Edit</span>
-      </div> */}
+      <div className="comment__footer">
+        {(comment.author === author.username) && <span className="comment__edit">Edit</span>}
+        {(comment.author === author.username) && <span className="comment__edit">Deliete</span>}
+      </div>
     </div>
   );
 }

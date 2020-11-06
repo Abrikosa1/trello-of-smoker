@@ -1,9 +1,10 @@
-import React, { SetStateAction, useContext, useEffect, useRef, useState } from 'react';
+import React, { RefObject, SetStateAction, useContext, useEffect, useRef, useState } from 'react';
 import './tasksList.css';
 import TaskCard from '../TaskCard/TaskCard';
-import { AddTask, DeleteList, DeleteTask, List, RenameList, Task } from '../../types';
+import { AddTask, ChangeDescription, DeleteList, DeleteTask, List, RenameList, Task } from '../../types';
 import AddTaskform from '../AddTaskForm/AddTaskform';
 import { UserContext } from '../UserContext';
+import { useOutsideAlerter } from '../../hooks/useOutsideAlerter';
 
 
 interface ITasksListProps {
@@ -25,7 +26,6 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
 
   const [opened, setOpened] = useState(false);
   const addCard = (e: React.MouseEvent<HTMLSpanElement>) => {
-    console.log(opened);
     e.preventDefault();
     setOpened(!opened);
   }
@@ -75,54 +75,93 @@ const TasksList: React.FC<ITasksListProps> = ({ id, title, tasks, list, lists, s
   const listTitleInput = useRef<HTMLTextAreaElement>(null);
   
   const handleRenameList = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      renameList(id, e.target.value); 
+    renameList(id, e.target.value); 
   };
 
+  const handleBlurList = (e: React.FocusEvent<HTMLTextAreaElement>) => {
+    if(e.target.value.length < 1) {
+      e.target.focus();
+    }
+  };
+
+  const changeDesc: ChangeDescription = (list_id: number, task_id: number, new_desc: string) => {
+    // let newTasks = [...tasks];
+    // let newTasksArr = newTasks.map(item => {
+    //               if(item.id === task_id) {
+    //                 return {...item, description: new_desc}
+    //               }
+    //               else {
+    //                 return item;
+    //               }
+    //             }
+    //   )
+    //   setTask(newTasksArr);
+    // let newLists = [...lists]
+    // let newListsArr = newLists.map(item  => {
+    //   if (item.id === list_id) {
+    //     return {...item, 
+    //               tasks: task
+    //           }
+    //     } else {
+    //       return item;
+    //     }
+    //   });
+    //   setLists([...newListsArr]); 
+    //   console.log(newListsArr); 
+    let arr = [...lists]
+    let newArr = arr.map(item  => {
+      if (item.id === list_id) {
+        return {...item, 
+                  tasks: item.tasks.map(task => task.id === task_id ? {...task, description: new_desc} : task)
+              }
+        } else {
+          return item;
+        }
+      });
+      setLists(newArr);
+      console.log(newArr);
+  }
+
+  const textAreaAdjust = (e: any) => {
+    e.target.style.height = '1px';
+    e.target.style.height = e.target.scrollHeight +'px';
+  };
+
+  /* хук для отлова клика за элементом */
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef, setOpened);
 
 
-  /* Лучше вынести в отдельный хук, т.к дублируется, и приводит к багу после модалки логина*/
-  // const ref = useRef<HTMLDivElement>(null);
-  // const handleOutsideclick = (e: any) => {
-  //   console.log("ffdsf");
-  //   if (ref.current && !ref.current.contains(e.target)) {
-  //     setOpened(!opened);
-  //   }
-  // };
 
-  // useEffect(() => {
-  //   document.addEventListener("click", handleOutsideclick);
-
-  //   return () => {
-  //     document.removeEventListener("click", handleOutsideclick);
-  //   };
-  // });
   return(
     <div className="tasks-list" id={id.toString()} >
+      {/* <button onClick={changeDesc}></button> */}
       <div className="tasks-list__content">
         <div className="tasks-list__header">
-          <textarea id={'textarea' + id} ref={listTitleInput}  className="tasks-list__title" value={title} onChange={handleRenameList}/>
+          <textarea ref={listTitleInput}  className="tasks-list__title" value={title} onKeyUp={textAreaAdjust} onChange={handleRenameList} onBlur={handleBlurList} />
           <span className="icon-sm icon-delete" onClick={handleDeleteList}>&#10006;</span>
         </div>
         <div className="tasks-list__cards u-fancy-scrollbar">
           {task.map(item => {
             return (
-              <TaskCard lists={lists} setTask={setTask} setLists={setLists} key={item.id} list={list} task={item} deleteTask={deleteTask} />
+              <TaskCard changeDesc={changeDesc} lists={lists} setTask={setTask} setLists={setLists} key={item.id} list={list} task={item} deleteTask={deleteTask} />
               //toggleCompleted={toggleCompleted}
             )
           })}
           
-           {opened ? <div ><AddTaskform addTask={addTask} setOpened={setOpened} /></div> : ""}
+           {opened && <div ref={wrapperRef}><AddTaskform addTask={addTask} setOpened={setOpened} /></div>}
           
         </div>
-        {!opened ? <div className='tasks-list__card-composer '>
+        {!opened && <div className='tasks-list__card-composer '>
           <div className="tasks-composer__open">
             <span className="icon-sm icon-add"></span>
             <span className="js-add-another-card" onClick={addCard}>{tasks.length > 0 ? 'Add another card' : 'Add card'}</span>
           </div> 
-        </div>: ""}
+        </div>}
       </div>
     </div>
   )
 };
 
 export default TasksList;
+

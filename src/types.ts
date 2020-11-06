@@ -34,3 +34,5 @@ export type RenameTask = (list_id: number, task_id: number, newTitle: string) =>
 export type RenameList = (list_id: number, newTitle: string) => void;
 
 export type DeleteList = (list_id: number) => void;
+
+export type ChangeDescription = (list_id: number, task_id: number, new_desc: string) => void;

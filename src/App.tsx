@@ -6,7 +6,14 @@ import { UserContext } from './components/UserContext';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { List, Task, Comment } from './types';
+import { DataContext } from './DataContext';
 
+
+// const comments = [
+//   { id: 1, list_id: 2, task_id: 3, text: 'Ку-ку', author: "Ya", create_time: new Date() }, 
+//   { id: 2, text: 'Вот это задачка', author: "Вомбат", create_time: new Date() }, 
+//   { id: 3, text: 'Блин, походу не сделаю', author: "Ya", create_time: new Date() }, 
+// ]
 
 const initialComments1: Array<Comment> = [
   { id: 1, text: 'Ку-ку', author: "Ya", create_time: new Date() }, 
@@ -54,6 +61,7 @@ function App() {
 
 
   useEffect(() => {
+    setLists(lists);
     localStorage.setItem('lists' || "", JSON.stringify(lists));
   }, [lists]);
 
@@ -62,8 +70,10 @@ function App() {
       <div className="app-wrapper">
         <UserContext.Provider value={ { username, setUsername } }>
           <Header />
-        </UserContext.Provider>
-        {name ? <Main lists={lists} setLists={setLists}/> : ''}
+          <DataContext.Provider value={ { lists, setLists } }>
+          {name ? <Main lists={lists} setLists={setLists}/> : ''}
+          </DataContext.Provider>
+      </UserContext.Provider>
       </div>
     </>
   );

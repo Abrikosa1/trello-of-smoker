@@ -1,4 +1,5 @@
 import React, { SetStateAction, useEffect, useRef, useState } from 'react';
+import { useOutsideAlerter } from '../../hooks/useOutsideAlerter';
 import { AddList, DeleteList, List, RenameList } from '../../types';
 import AddListForm from '../AddListForm/AddListForm';
 import TasksList from '../TasksList/TasksList';
@@ -11,7 +12,7 @@ interface IMainListProps {
 }
 
 const Main: React.FC<IMainListProps> = ({ lists, setLists }) => {
- 
+  console.log(Math.floor((Math.random() * 3) + 1));
   //вычеркивание выполненного
 
   //const[tasks, setTasks] = useState(initialtodos);
@@ -55,22 +56,24 @@ const Main: React.FC<IMainListProps> = ({ lists, setLists }) => {
   };
 
 
-  /* Лучше вынести в отдельный хук, т.к дублируется, и приводит к багу после модалки логина*/
-  // const addListFormRef = useRef<HTMLDivElement>(null);
-  // const handleOutsideclick = (e: any) => {
-  //   if (addListFormRef.current && !addListFormRef.current.contains(e.target)) {
-  //     setShowForm(!showForm);
-  //   }
-  // };
+    const changeDesc = (e: React.MouseEvent<HTMLButtonElement>) => {
+    let arr = [...lists]
+    let newArr = arr.map(item  => {
+      if (item.id === 1) {
+        return {...item, 
+                  tasks: item.tasks.map(task => task.id === 1 ? {...task, description: 'DENISKA'} : task)
+              }
+        } else {
+          return item;
+        }
+      });
+      setLists(newArr);
+  }
 
-  // useEffect(() => {
-  //   document.addEventListener("click", handleOutsideclick);
+  /* хук для отлова клика за элементом */
+  const wrapperRef = useRef(null);
+  useOutsideAlerter(wrapperRef, setShowForm);
 
-  //   return () => {
-  //     document.removeEventListener("click", handleOutsideclick);
-  //   };
-  // });
-  
   return(
     <> 
       <main>
@@ -82,7 +85,7 @@ const Main: React.FC<IMainListProps> = ({ lists, setLists }) => {
             )
           })
           }
-          <div  className={`tasks-list__add-list tasks-list ${showForm ? "mod-add" : ""}`}>
+          <div ref={wrapperRef} className={`tasks-list__add-list tasks-list ${showForm ? "mod-add" : ""}`}>
             {showForm ? <div ><AddListForm addList={addList} setShowForm={setShowForm}/></div> : ''}
             <span className={`add-list__placeholder ${showForm ? "hide" : ""}`} onClick={addListToggle}>
               <span className="icon-sm icon-add"></span>

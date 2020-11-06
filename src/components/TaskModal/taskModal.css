@@ -7,11 +7,16 @@
   width: 768px;
   z-index: 25;
   width: 90%;
-  
+}
+.modal-content {
+  border: none !important;
 }
 .task-modal__wrapper.modal-content {
   background-color: #f4f5f7;
   border: none !important;
+}
+.modal-dialog-centered {
+  min-height: unset !important;
 }
 .task-modal__close {
   color: #42526e;
@@ -28,11 +33,8 @@
   transition: background-color 85ms,
   color 85ms;
 }
-.task-modal__wrapper {
-
-}
 .task-details {
-  min-height: 600px;
+  /* min-height: 600px; */
   background-color: #f4f5f7;
 }
 .u-clearfix:after {
@@ -90,7 +92,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   min-height: 24px;
-  padding: 0 8px 8px 16px;
+  padding: 0px 16px 8px 16px;
   position: relative;
   width: 100%;
   z-index: 0;
@@ -162,6 +164,72 @@
 .task-description__text {
   margin-left: 40px;
   cursor: pointer;
+}
+.task-description__text p {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 10px;
+}
+.task-description__edit {
+
+}
+.edit_closed {
+  display: none;
+}
+.edit-controls {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.description-edit__texarea {
+  overflow: hidden;
+  overflow-wrap: break-word;
+  resize: none;
+  height: 08px;
+  min-height: 80px;
+  background: #fff;
+  box-shadow: none;
+  width: 100%;
+  border: none;
+  box-shadow: inset 0 0 0 2px #dfe1e6;
+  color: #172b4d;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  border-radius: 3px;
+  line-height: 20px;
+  padding: 8px 12px;
+  transition-property: background-color,
+  border-color,
+  box-shadow;
+  transition-duration: 85ms;
+  transition-timing-function: ease;
+  font-size: 14px;
+}
+.edit-controls__save-btn {
+  background-color: #5aac44;
+  box-shadow: none;
+  border: none;
+  color: #fff;
+  margin: 0 4px 0 0;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 400;
+  line-height: 20px;
+  padding: 6px 12px;
+  text-align: center;
+  border-radius: 3px;
+  transition-property: background-color,
+  border-color,
+  box-shadow;
+  transition-duration: 85ms;
+  transition-timing-function: ease;
+  font-size: 14px;  
+}
+.edit-controls__cancel-icon {
+  margin-left: 20px;
+}
+.edit-controls__cancel-icon:hover {
+  color: rgb(75, 191, 107);
 }
 .task-description__author-icon {
   top: 5px;
@@ -252,9 +320,10 @@
   margin: 0;
 }
 .delete-button {
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
+  position: relative;
+  float: right;
+  right: 20px;
+  bottom: 15px;
   color: #fff;
   background-color: #dc3545;
   border-color: #dc3545;

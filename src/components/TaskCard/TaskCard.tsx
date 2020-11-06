@@ -1,5 +1,5 @@
 import React, { SetStateAction, useState } from 'react';
-import { DeleteTask, List, RenameTask, Task } from '../../types';
+import { ChangeDescription, DeleteTask, List, RenameTask, Task } from '../../types';
 import TaskModal from '../TaskModal/TaskModal';
 import './taskCard.css';
 
@@ -11,9 +11,10 @@ interface ITaskCardProps {
   setLists: React.Dispatch<SetStateAction<Array<List>>>;
   // toggleCompleted: ToggleCompleted;
   lists: Array<List>;
+  changeDesc: ChangeDescription;
 };
 
-const TaskCard: React.FC<ITaskCardProps> = ({ task, deleteTask, list, setTask, setLists, lists }) => {
+const TaskCard: React.FC<ITaskCardProps> = ({ task, deleteTask, list, setTask, setLists, lists, changeDesc }) => {
   //toggleCompleted 
 
   const handleDeleteTask = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -28,10 +29,7 @@ const TaskCard: React.FC<ITaskCardProps> = ({ task, deleteTask, list, setTask, s
   };
 
 
-  const [name, setName] = useState(task);
-
-
- const renameTask: RenameTask = (list_id: number, task_id: number, newTitle: string) => {
+  const renameTask: RenameTask = (list_id: number, task_id: number, newTitle: string) => {
   task.title = newTitle;
   let arr = [...lists]
   let newArr = arr.map(item  => {
@@ -64,7 +62,7 @@ const TaskCard: React.FC<ITaskCardProps> = ({ task, deleteTask, list, setTask, s
         </div>
       </div>
     </div>
-    <TaskModal taskModalShow={taskModalShow} setTaskModalShow={setTaskModalShow} renameTask={renameTask} setTask={setTask} task={task} list={list} deleteTask={deleteTask} />
+    <TaskModal changeDesc={changeDesc} taskModalShow={taskModalShow} setTaskModalShow={setTaskModalShow} renameTask={renameTask} setTask={setTask} task={task} list={list} deleteTask={deleteTask} />
   </>
   );
 }
