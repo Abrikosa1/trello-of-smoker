@@ -23,7 +23,7 @@ export type Comment = {
 
 export type ToggleCompleted = (selectedTodo: Task) => void;
 
-export type AddTask = (newTask: string) => void;
+export type AddTask = (list_id: number, task_id: number, newTask: string, author: string) => void;
 
 export type DeleteTask = (list_id: number, task_id: number) => void;
 

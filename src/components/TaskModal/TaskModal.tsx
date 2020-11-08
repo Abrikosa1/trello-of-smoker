@@ -1,7 +1,6 @@
 import React, { SetStateAction, useContext, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { DataContext } from '../../DataContext';
-import { ChangeDescription, DeleteTask, List, RenameTask, Task } from '../../types';
+import { List, Task } from '../../types';
 import CommentComponent from '../Comment/CommentComponent';
 import { UserContext } from '../UserContext';
 import { Comment } from '../../types';
@@ -9,30 +8,31 @@ import './taskModal.css';
 
 interface ITaskModal {
   task: Task;
-  deleteTask: DeleteTask;
   taskModalShow: boolean;
   setTaskModalShow: React.Dispatch<SetStateAction<boolean>>;
   list: List;
-  setTask: React.Dispatch<SetStateAction<Array<Task>>>;
-  renameTask: RenameTask;
-  changeDesc: ChangeDescription;
+  dispatch: any;
 }
 
-const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalShow, renameTask, taskModalShow, changeDesc}) => {
+
+const TaskModal: React.FC<ITaskModal> = ({ task, dispatch, list, setTaskModalShow,  taskModalShow}) => {
      /* get current username from context*/
   const currentUser = useContext(UserContext);
   const author = currentUser.username;
   
   
   const ref = useRef(null);
-
   const handleCloseModal = () => {
     setTaskModalShow(false);
   }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    renameTask(list.id,task.id, e.target.value);
+    dispatch({
+      type: 'RENAME_TASK',
+      payload: {listId: list.id, taskId: task.id, newTitle: e.target.value}
+    })
   };
+
   const handleTitleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
     if(e.target.value.length < 1) {
       e.target.focus();
@@ -51,10 +51,21 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalS
   }
    const handleDescriptionSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
      //task.description = description;
-     changeDesc(list.id, task.id, description);
+     dispatch({
+       type: 'EDIT_TASK_DESCRIPTION',
+       payload: { listId: list.id, taskId: task.id, newDesc: description}
+     })
      setEdit(false);
    }
   
+   const handleClickDeleteTask = (e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch({
+      type: 'DELETE_TASK',
+      payload: {listId: list.id, taskId: task.id}
+      })
+   };
+
+
 
    /* add comment */
    const [newComment, setNewComment] = useState('');
@@ -62,40 +73,32 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalS
     setNewComment(e.target.value);
    };
 
-   const {lists, setLists} = useContext(DataContext);
-   const handleCommentSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
-    
+  const handleCommentSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const testComment:Comment = { id: 323, text: newComment, author: author!, create_time: new Date()};
-    let arr = [...lists] || ''
-    let newArr = arr.map(item  => {
-      if (item.id === list.id) {
-        return {...item, 
-                  tasks: item.tasks.map(el => 
-                    el.id === task.id 
-                    ? {...el, comments: [...el.comments, testComment]} 
-                    : el)
-              }
-        } else {
-          return item;
-        }
-      });
-      setLists(newArr);
+    const addedComment:Comment = { id: task.comments.length + 1, text: newComment, author: author!, create_time: new Date()};
+    dispatch({
+      type: 'ADD_TASK_COMMENT',
+      payload: {listId: list.id, taskId: task.id, newComment: addedComment}
+    })
+    setNewComment('')
    }
 
 
 
 
-
-
-
-
+  // Для автоматического увеличения высоты texarea
   const textAreaAdjust = (e: any) => {
     e.target.style.height = '1px';
     e.target.style.height = e.target.scrollHeight +'px';
   };
 
 
+  const handleToggleTaskCompleted = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch({
+      type: 'TOGGLE_TASK_COMPLETED',
+      payload: {listId: list.id, taskId: task.id}
+    })
+  };
   return (
     <Modal
       show={taskModalShow}
@@ -111,7 +114,8 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalS
           <div className="task-details__header">
             <span className="task-details__icon">&#128073;</span>
             <div className="task-details__title">
-              <textarea value={task.title} onKeyUp={textAreaAdjust} className="task-details__title task-details__input" onChange={handleTitleChange} onBlur={handleTitleBlur} required></textarea>
+              <textarea value={task.title} onKeyUp={textAreaAdjust} className={`task-details__title task-details__input ${task.complete ? 'complete' : 
+            ''}`} onChange={handleTitleChange} onBlur={handleTitleBlur} required></textarea>
             </div>
             <div className="task-details__list-info">
               <p className="u-inline-block u-bottom">in list <span className="task-details__list-name">{list.title}</span></p>
@@ -138,7 +142,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalS
                     <span className="edit-controls__cancel-icon icon-sm" onClick={handleEditDescription}>&#10006;</span>
                   </div>
               </div>
-              </div>
+            </div>
 
 
               <div className="task-description__title task-description__title_author">
@@ -155,6 +159,10 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalS
               <div className="task-description__title task-description__title_author">
                 <span className="task-description__icon">&#128491;</span>
                 <h3 className="task-description__heading">Activity</h3>
+                <div className="task__complete">
+                  <span>Set as completed: &nbsp;</span>
+                  <input className="card__checkbox" type="checkbox" aria-label="Checkbox for following text input" checked={task.complete} onChange={handleToggleTaskCompleted} />  
+                </div>
               </div>
 
               <div className="task-comments">
@@ -172,14 +180,14 @@ const TaskModal: React.FC<ITaskModal> = ({ task, deleteTask, list, setTaskModalS
               {/* <!-- /.task-comments --> */}
               <div className="comments-box">
                 {task.comments.map(comment => {
-                  return (<CommentComponent key={comment.id} comment={comment}/>)
+                  return (<CommentComponent key={comment.id} comment={comment} task={task} list={list} dispatch={dispatch} />)
                 })}   
               </div>                        
             </div>
-
+ 
           </div>
-
-          <button className="task-editable__button delete-button" onClick={e => deleteTask(list.id, task.id)}>Delete</button>
+     
+          <button className="task-editable__button delete-button" onClick={handleClickDeleteTask}>Delete</button>
 
         </div> 
         {/* <!-- /.task-details --> */}

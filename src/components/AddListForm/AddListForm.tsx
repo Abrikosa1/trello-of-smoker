@@ -1,13 +1,12 @@
 import React, { SetStateAction, useRef, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { AddList } from '../../types';
 
 interface IAddListFormProps {
-  addList: AddList;
+  dispatch: any;
   setShowForm: React.Dispatch<SetStateAction<boolean>>;
 }
 
-const AddListForm: React.FC<IAddListFormProps> = ({ addList, setShowForm }) => {
+const AddListForm: React.FC<IAddListFormProps> = ({ dispatch, setShowForm }) => {
   const [newList, setNewList] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -17,9 +16,12 @@ const AddListForm: React.FC<IAddListFormProps> = ({ addList, setShowForm }) => {
   const listTitleInput = useRef<HTMLInputElement>(null);
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const regExp = /^[a-zA-Zа-яА-ЯеЁ0-9-_.]{2,20}$/;
-    if(regExp.test(newList)) {
-      addList(newList);
+    if(newList.length > 1) {
+      dispatch({
+        type: 'ADD_LIST',
+        payload: newList
+      });
+      setShowForm(false);
     }
     else {
       listTitleInput.current!.focus();

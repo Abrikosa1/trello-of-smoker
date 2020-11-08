@@ -1,19 +1,21 @@
-import React, { SetStateAction, useRef, useState } from 'react';
+import React, { SetStateAction, useContext, useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import { AddTask } from '../../types';
+import { List } from '../../types';
+import { UserContext } from '../UserContext';
 
 import './addTaskform.css';
 
 interface IAddTaskFormProps {
-  addTask: AddTask;
   setOpened: React.Dispatch<SetStateAction<boolean>>;
+  list: List;
+  dispatch: any;
 }
 
-const AddTaskform: React.FC<IAddTaskFormProps> = ({ addTask, setOpened }) => {
+const AddTaskform: React.FC<IAddTaskFormProps> = ({ setOpened, list, dispatch }) => {
 
   //add task
   const [newTask, setNewTask] = useState('');
-
+  const { username } = useContext(UserContext);
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTask(e.target.value);
   };
@@ -21,9 +23,13 @@ const AddTaskform: React.FC<IAddTaskFormProps> = ({ addTask, setOpened }) => {
   const textInput = useRef<HTMLTextAreaElement>(null);
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const regExp = /^[a-zA-Zа-яА-ЯеЁ0-9-_.]{2,20}$/;
-    if(regExp.test(newTask)) {
-      addTask(newTask);
+    if(newTask.length > 0) {
+      dispatch({
+        type: 'ADD_TASK',
+        payload: { listId: list.id, taskId: list.tasks.length + 1, newTaskTitle: newTask, username: username}
+      })
+      
+      setOpened(false);
     } else {      
       textInput.current!.focus();
     }

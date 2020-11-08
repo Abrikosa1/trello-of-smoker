@@ -108,6 +108,7 @@
   min-height: 32px;
   position: relative;
   margin: 0 0 0px 40px;
+  flex-wrap: wrap;
 }
 .task-description__icon {
   top: 5px;
@@ -333,4 +334,9 @@
 }
 .comments-box:last-child {
   margin-bottom: 0px;
+}
+.task__complete {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }
