@@ -1,6 +1,7 @@
 import React, { SetStateAction, useContext, useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { List } from '../../types';
+import { ListsDataContext } from '../ListsDataContext';
 import { UserContext } from '../UserContext';
 
 import './addTaskform.css';
@@ -8,11 +9,10 @@ import './addTaskform.css';
 interface IAddTaskFormProps {
   setOpened: React.Dispatch<SetStateAction<boolean>>;
   list: List;
-  dispatch: any;
 }
 
-const AddTaskform: React.FC<IAddTaskFormProps> = ({ setOpened, list, dispatch }) => {
-
+const AddTaskform: React.FC<IAddTaskFormProps> = ({ setOpened, list }) => {
+  const { dispatch } = useContext(ListsDataContext);
   //add task
   const [newTask, setNewTask] = useState('');
   const { username } = useContext(UserContext);
@@ -26,7 +26,7 @@ const AddTaskform: React.FC<IAddTaskFormProps> = ({ setOpened, list, dispatch })
     if(newTask.length > 0) {
       dispatch({
         type: 'ADD_TASK',
-        payload: { listId: list.id, taskId: list.tasks.length + 1, newTaskTitle: newTask, username: username}
+        payload: { listId: list.id, taskId: list.tasks.length + 1, newTaskTitle: newTask, username: username!}
       })
       
       setOpened(false);

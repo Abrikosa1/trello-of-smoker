@@ -1,12 +1,13 @@
-import React, { SetStateAction, useRef, useState } from 'react';
+import React, { SetStateAction, useContext, useRef, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
+import { ListsDataContext } from '../ListsDataContext';
 
 interface IAddListFormProps {
-  dispatch: any;
   setShowForm: React.Dispatch<SetStateAction<boolean>>;
 }
 
-const AddListForm: React.FC<IAddListFormProps> = ({ dispatch, setShowForm }) => {
+const AddListForm: React.FC<IAddListFormProps> = ({setShowForm }) => {
+  const { dispatch } = useContext(ListsDataContext);
   const [newList, setNewList] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

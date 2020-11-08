@@ -8,24 +8,9 @@ import './main.css';
 
 interface IMainListProps {
   lists: Array<List>;
-  dispatch: any;
 }
 
-const Main: React.FC<IMainListProps> = ({ lists, dispatch }) => {
-  //вычеркивание выполненного
-
-  //const[tasks, setTasks] = useState(initialtodos);
-  // const toggleCompleted: ToggleCompleted = selectedTask => {
-  //   const updatedTodos = tasks.map(task => {
-  //     if (task === selectedTask) {
-  //       task.complete = !task.complete;
-  //       return task;
-  //     }
-  //     return task;
-  //   });
-  //   setTasks(updatedTodos);
-  // };
-
+const Main: React.FC<IMainListProps> = ({ lists }) => {
 
   const [showForm, setShowForm] = useState(false);
 
@@ -45,12 +30,11 @@ const Main: React.FC<IMainListProps> = ({ lists, dispatch }) => {
         <div id="board" className="board u-fancy-scrollbar">
           {lists.map(list => {
             return (
-              <TasksList key={list.id} dispatch={dispatch} list={list} />
-              /*setTasks={setTasks} toggleCompleted={toggleCompleted}*/
+              <TasksList key={list.id} list={list} />
             )
           })}
           <div ref={wrapperRef} className={`tasks-list__add-list tasks-list ${showForm ? "mod-add" : ""}`}>
-            {showForm ? <div ><AddListForm dispatch={dispatch} setShowForm={setShowForm}/></div> : ''}
+            {showForm ? <div ><AddListForm setShowForm={setShowForm}/></div> : ''}
             <span className={`add-list__placeholder ${showForm ? "hide" : ""}`} onClick={toggleAddList}>
               <span className="icon-sm icon-add"></span>
               {lists ? 'Add another list' : 'Add list '}

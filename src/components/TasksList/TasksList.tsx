@@ -1,18 +1,18 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import './tasksList.css';
 import TaskCard from '../TaskCard/TaskCard';
 import { List } from '../../types';
 import AddTaskform from '../AddTaskForm/AddTaskform';
 import { useOutsideAlerter } from '../../hooks/useOutsideAlerter';
+import { ListsDataContext } from '../ListsDataContext';
 
 
 interface ITasksListProps {
   list: List;
-  dispatch: any;
-  // toggleCompleted: ToggleCompleted;
 }
 
-const TasksList: React.FC<ITasksListProps> = ({ list, dispatch }) => {
+const TasksList: React.FC<ITasksListProps> = ({ list }) => {
+  const { dispatch } = useContext(ListsDataContext);
   
   const [opened, setOpened] = useState(false);
   const addCard = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -58,7 +58,6 @@ const TasksList: React.FC<ITasksListProps> = ({ list, dispatch }) => {
 
   return(
     <div className="tasks-list" >
-      {/* <button onClick={changeDesc}></button> */}
       <div className="tasks-list__content">
         <div className="tasks-list__header">
           <textarea ref={listTitleInput}  className="tasks-list__title" value={list.title} onKeyUp={textAreaAdjust} onChange={handleRenameList} onBlur={handleBlurList} />
@@ -67,12 +66,11 @@ const TasksList: React.FC<ITasksListProps> = ({ list, dispatch }) => {
         <div className="tasks-list__cards u-fancy-scrollbar">
           {list.tasks.map(item => {
             return (
-              <TaskCard key={item.id} list={list} task={item} dispatch={dispatch} />
-              //toggleCompleted={toggleCompleted}
+              <TaskCard key={item.id} list={list} task={item}  />
             )
           })}
           
-           {opened && <div ref={wrapperRef}><AddTaskform dispatch={dispatch} setOpened={setOpened} list={list} /></div>}
+           {opened && <div ref={wrapperRef}><AddTaskform setOpened={setOpened} list={list} /></div>}
           
         </div>
         {!opened && <div className='tasks-list__card-composer '>

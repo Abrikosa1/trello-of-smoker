@@ -2,11 +2,13 @@ import React, { useEffect, useState, useReducer } from 'react';
 import Header from './components/Header/Header';
 import Main from './components/Main/Main';
 import { UserContext } from './components/UserContext';
-import reducer from './reducer';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { ListsDataContext } from './components/ListsDataContext';
+import dataReducer from './dataReducer';
 import { List, Task, Comment } from './types';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+
 
 
 const initialComments1: Array<Comment> = [
@@ -35,7 +37,7 @@ const initialTasks2: Array<Task> = [
 ]
 
 
-const initialLists: Array<List> = [
+let initialLists: Array<List> = [
   { id: 0, title: 'TODO', tasks : initialTasks1 },
   { id: 1, title: 'In Progress', tasks : initialTasks2 },
   { id: 2, title: 'Testing', tasks : [] },
@@ -43,27 +45,31 @@ const initialLists: Array<List> = [
 ]
 
 if(!localStorage.getItem('lists')) {
-  localStorage.setItem('lists', JSON.stringify(initialLists));
+  if(initialLists) {
+    localStorage.setItem('lists', JSON.stringify(initialLists));
+  } else {
+    localStorage.setItem('lists', JSON.stringify([]));
+  }
 }  
-
-
 function App() {
-  const [lists, dispatch] = useReducer(reducer, JSON.parse(localStorage.getItem('lists') || ''));
+
+  const [lists, dispatch] = useReducer(dataReducer, JSON.parse(localStorage.getItem('lists') as string));
   const name = localStorage.getItem('username');
   const [username, setUsername] = useState(name);
 
-
   useEffect(() => {
-      localStorage.setItem('lists' || "", JSON.stringify(lists));
+    localStorage.setItem('lists', JSON.stringify(lists));
   }, [lists]);
 
   return (
     <> 
       <div className="app-wrapper">
-        <UserContext.Provider value={ { username, setUsername } }>
-          <Header />
-          {name ? <Main lists={lists} dispatch={dispatch} /> : ''}
-        </UserContext.Provider>
+        <ListsDataContext.Provider value={{ lists, dispatch }}>
+          <UserContext.Provider value={{ username, setUsername }}>
+            <Header />
+            {name && <Main lists={lists} />}
+          </UserContext.Provider>
+        </ListsDataContext.Provider>
       </div>
     </>
   );

@@ -20,12 +20,9 @@ const NameModal: React.FC = () => {
 
   const submitModal = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const regExp: RegExp = /^[a-zA-Zа-яА-ЯЁё0-9-_.]{1,20}$/;
-    if(regExp.test(inputUsername)) {
       setUsername(inputUsername);
       localStorage.setItem('username', inputUsername);
       handleClose();
-    }
   };
 
   useEffect(()=>{

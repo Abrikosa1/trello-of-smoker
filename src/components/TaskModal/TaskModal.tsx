@@ -1,21 +1,23 @@
 import React, { SetStateAction, useContext, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { List, Task } from '../../types';
-import CommentComponent from '../Comment/CommentComponent';
 import { UserContext } from '../UserContext';
 import { Comment } from '../../types';
 import './taskModal.css';
+import { ListsDataContext } from '../ListsDataContext';
+import CommentsList from '../CommentsList/CommentsList';
 
 interface ITaskModal {
   task: Task;
   taskModalShow: boolean;
   setTaskModalShow: React.Dispatch<SetStateAction<boolean>>;
   list: List;
-  dispatch: any;
 }
 
 
-const TaskModal: React.FC<ITaskModal> = ({ task, dispatch, list, setTaskModalShow,  taskModalShow}) => {
+const TaskModal: React.FC<ITaskModal> = ({ task, list, setTaskModalShow,  taskModalShow}) => {
+  const { dispatch } = useContext(ListsDataContext);
+
      /* get current username from context*/
   const currentUser = useContext(UserContext);
   const author = currentUser.username;
@@ -99,6 +101,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, dispatch, list, setTaskModalSho
       payload: {listId: list.id, taskId: task.id}
     })
   };
+
   return (
     <Modal
       show={taskModalShow}
@@ -178,11 +181,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, dispatch, list, setTaskModalSho
                 </form>
               </div>
               {/* <!-- /.task-comments --> */}
-              <div className="comments-box">
-                {task.comments.map(comment => {
-                  return (<CommentComponent key={comment.id} comment={comment} task={task} list={list} dispatch={dispatch} />)
-                })}   
-              </div>                        
+              <CommentsList list={list} task={task} />
             </div>
  
           </div>

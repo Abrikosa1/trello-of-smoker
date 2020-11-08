@@ -1,19 +1,17 @@
-import React, { SetStateAction, useState } from 'react';
-import { ChangeDescription, DeleteTask, List, RenameTask, Task } from '../../types';
+import React, { useContext, useState } from 'react';
+import { List, Task } from '../../types';
+import { ListsDataContext } from '../ListsDataContext';
 import TaskModal from '../TaskModal/TaskModal';
 import './taskCard.css';
 
 interface ITaskCardProps {
   task: Task;
   list: List;
-  // toggleCompleted: ToggleCompleted;
-  dispatch: any;
-  
 };
 
-const TaskCard: React.FC<ITaskCardProps> = ({ task, list, dispatch }) => {
-  //toggleCompleted 
-
+const TaskCard: React.FC<ITaskCardProps> = ({ task, list }) => {
+  const { dispatch } = useContext(ListsDataContext);
+  
   const handleDeleteTask = (e: React.MouseEvent<HTMLSpanElement>) => {
     dispatch({
       type: 'DELETE_TASK',
@@ -47,7 +45,7 @@ const TaskCard: React.FC<ITaskCardProps> = ({ task, list, dispatch }) => {
         </div>
       </div>
     </div>
-    <TaskModal taskModalShow={taskModalShow} setTaskModalShow={setTaskModalShow} task={task} list={list} dispatch={dispatch} />
+    <TaskModal taskModalShow={taskModalShow} setTaskModalShow={setTaskModalShow} task={task} list={list} />
   </>
   );
 }

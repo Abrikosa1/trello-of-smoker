@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Comment, List, Task } from '../../types';
+import { ListsDataContext } from '../ListsDataContext';
 import { UserContext } from '../UserContext';
 import './commentComponent.css'
 
@@ -7,10 +8,10 @@ interface IComment {
   comment: Comment;
   task: Task;
   list: List;
-  dispatch: any;
 }
 
-const CommentComponent: React.FC<IComment> = ({ list, task, comment, dispatch }) => {
+const CommentComponent: React.FC<IComment> = ({ list, task, comment }) => {
+  const { dispatch } = useContext(ListsDataContext);
 
   const author = useContext(UserContext);
   const date: Date = new Date(comment.create_time);

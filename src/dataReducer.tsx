@@ -1,6 +1,25 @@
-import { List } from "./types";
+import { List, Comment } from "./types";
 
-export default function(lists: any, action: any) {
+export type Actions = 
+          | { type: 'ADD_LIST', payload: string} 
+          | { type: 'DELETE_LIST', payload: number} 
+          | { type: 'RENAME_LIST', payload: { listId: number, newTitle: string} }
+          | { type: 'ADD_TASK', payload: { listId: number, taskId: number, username: string, newTaskTitle: string} } 
+          | { type: 'DELETE_TASK', payload: { listId: number, taskId: number} } 
+          | { type: 'RENAME_TASK', payload: { listId: number, taskId: number, newTitle: string} } 
+          | { type: 'TOGGLE_TASK_COMPLETED', payload: { listId: number, taskId: number} } 
+          | { type: 'EDIT_TASK_DESCRIPTION', payload: { listId: number, taskId: number, newDesc: string} } 
+          | { type: 'ADD_TASK_COMMENT', payload: { listId: number, taskId: number, newComment: Comment} } 
+          | { type: 'DELETE_TASK_COMMENT', payload: { listId: number, taskId: number, commentId: number} } 
+          | { type: 'EDIT_TASK_COMMENT', payload: { listId: number, taskId: number, commentId: number, newComment: string} } 
+              
+  
+  //                     'ADD_LIST' | 'DELETE_LIST' | 'RENAME_LIST' |
+  //                     'ADD_TASK' | 'DELETE_TASK' | 'RENAME_TASK' |
+  //                     'TOGGLE_TASK_COMPLETED' | 'EDIT_TASK_DESCRIPTION' | 
+  //                     'ADD_TASK_COMMENT' | 'DELETE_TASK_COMMENT' | 'EDIT_TASK_COMMENT'}
+
+const dataReducer = (lists: Array<List>, action: Actions) => {
   switch (action.type) {
     case 'ADD_LIST': 
       return [
@@ -128,3 +147,4 @@ export default function(lists: any, action: any) {
   }
 } 
 
+export default dataReducer;
