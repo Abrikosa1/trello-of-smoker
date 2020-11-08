@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/trello-of-smoker/static/css/main.4c49391b.chunk.css",
+    "main.js": "/trello-of-smoker/static/js/main.17195547.chunk.js",
+    "main.js.map": "/trello-of-smoker/static/js/main.17195547.chunk.js.map",
+    "runtime-main.js": "/trello-of-smoker/static/js/runtime-main.4a60dfe0.js",
+    "runtime-main.js.map": "/trello-of-smoker/static/js/runtime-main.4a60dfe0.js.map",
+    "static/css/2.20aa2d7b.chunk.css": "/trello-of-smoker/static/css/2.20aa2d7b.chunk.css",
+    "static/js/2.87652a62.chunk.js": "/trello-of-smoker/static/js/2.87652a62.chunk.js",
+    "static/js/2.87652a62.chunk.js.map": "/trello-of-smoker/static/js/2.87652a62.chunk.js.map",
+    "static/js/3.662d8a92.chunk.js": "/trello-of-smoker/static/js/3.662d8a92.chunk.js",
+    "static/js/3.662d8a92.chunk.js.map": "/trello-of-smoker/static/js/3.662d8a92.chunk.js.map",
+    "index.html": "/trello-of-smoker/index.html",
+    "static/css/2.20aa2d7b.chunk.css.map": "/trello-of-smoker/static/css/2.20aa2d7b.chunk.css.map",
+    "static/css/main.4c49391b.chunk.css.map": "/trello-of-smoker/static/css/main.4c49391b.chunk.css.map",
+    "static/js/2.87652a62.chunk.js.LICENSE.txt": "/trello-of-smoker/static/js/2.87652a62.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4a60dfe0.js",
+    "static/css/2.20aa2d7b.chunk.css",
+    "static/js/2.87652a62.chunk.js",
+    "static/css/main.4c49391b.chunk.css",
+    "static/js/main.17195547.chunk.js"
+  ]
+}
