@@ -3,6 +3,7 @@ import { List, Task } from '../../types';
 import { ListsDataContext } from '../ListsDataContext';
 import TaskModal from '../TaskModal/TaskModal';
 import './taskCard.css';
+import { BsChatFill } from "react-icons/bs";
 
 interface ITaskCardProps {
   task: Task;
@@ -39,7 +40,7 @@ const TaskCard: React.FC<ITaskCardProps> = ({ task, list }) => {
         </div>
         <div className="card__badges" >
           <div className="card__badge">
-            <span className="badge__icon badge__icon_sm badge__icon_comment" >&#128489;</span>
+            <span className="badge__icon badge__icon_sm badge__icon_comment" ><BsChatFill /></span>
             <span className="badge__text">{task.comments.length}</span>
           </div>
         </div>

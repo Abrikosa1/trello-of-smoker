@@ -10,7 +10,7 @@
   max-height: 162px;
   min-height: 54px;
   overflow-y: auto;
-  padding: 0;
+  /* padding: 0; */
   width: 100%;
   overflow-wrap: break-word;
   resize: none;

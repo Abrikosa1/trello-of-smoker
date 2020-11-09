@@ -6,6 +6,8 @@ import { Comment } from '../../types';
 import './taskModal.css';
 import { ListsDataContext } from '../ListsDataContext';
 import CommentsList from '../CommentsList/CommentsList';
+import { IoIosChatbubbles } from "react-icons/io";
+import { MdDescription } from "react-icons/md";
 
 interface ITaskModal {
   task: Task;
@@ -128,7 +130,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, list, setTaskModalShow,  taskMo
             <div className="task-details__task-description">
               
               <div className="task-description__title">
-                <span className="task-description__icon">&#128457;</span>
+                <span className="task-description__icon"><MdDescription /></span>
                 <h3 className="task-description__heading">Description</h3>
                 <div className="task-description__task-editable">
                   <button className="task-editable__button" onClick={handleEditDescription}>Edit</button>
@@ -160,7 +162,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, list, setTaskModalShow,  taskMo
             <div className="task-details__task-activities">
 
               <div className="task-description__title task-description__title_author">
-                <span className="task-description__icon">&#128491;</span>
+                <span className="task-description__icon"><IoIosChatbubbles /></span>
                 <h3 className="task-description__heading">Activity</h3>
                 <div className="task__complete">
                   <span>Set as completed: &nbsp;</span>

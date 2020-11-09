@@ -1,7 +1,6 @@
 .task-modal__wrapper {
   background-color: #f4f5f7;
   border-radius: 2px;
-  margin: 48px 0 80px;
   overflow: hidden;
   position: relative;
   width: 768px;
@@ -14,6 +13,9 @@
 .task-modal__wrapper.modal-content {
   background-color: #f4f5f7;
   border: none !important;
+}
+.modal-dialog {
+  margin: .5rem auto !important;
 }
 .modal-dialog-centered {
   min-height: unset !important;

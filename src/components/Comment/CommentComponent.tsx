@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react';
 import { Comment, List, Task } from '../../types';
 import { ListsDataContext } from '../ListsDataContext';
 import { UserContext } from '../UserContext';
-import './commentComponent.css'
+import './commentComponent.css';
+import { BsChatFill } from "react-icons/bs";
 
 interface IComment {
   comment: Comment;
@@ -69,7 +70,7 @@ const CommentComponent: React.FC<IComment> = ({ list, task, comment }) => {
         <span className="comment__date">{month + ' ' + day + ' at ' + time}</span>
       </div>
       <div className="comment__body">
-        <span className="comment__icon">🗩</span>
+        <span className="comment__icon"><BsChatFill /></span>
         {!edit && <div className="comment__card">
           <p className="comment__text">{comment.text}</p>
         </div>}

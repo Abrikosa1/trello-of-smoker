@@ -37,7 +37,7 @@ const Main: React.FC<IMainListProps> = ({ lists }) => {
             {showForm ? <div ><AddListForm setShowForm={setShowForm}/></div> : ''}
             <span className={`add-list__placeholder ${showForm ? "hide" : ""}`} onClick={toggleAddList}>
               <span className="icon-sm icon-add"></span>
-              {lists ? 'Add another list' : 'Add list '}
+              {lists.length > 0 ? 'Add another list' : 'Add list '}
             </span>
           </div>
         </div>
