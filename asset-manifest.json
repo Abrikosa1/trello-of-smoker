@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/trello-of-smoker/static/css/main.28e8209f.chunk.css",
-    "main.js": "/trello-of-smoker/static/js/main.79e9afd4.chunk.js",
-    "main.js.map": "/trello-of-smoker/static/js/main.79e9afd4.chunk.js.map",
-    "runtime-main.js": "/trello-of-smoker/static/js/runtime-main.ac3a73ef.js",
-    "runtime-main.js.map": "/trello-of-smoker/static/js/runtime-main.ac3a73ef.js.map",
+    "main.js": "/trello-of-smoker/static/js/main.21026162.chunk.js",
+    "main.js.map": "/trello-of-smoker/static/js/main.21026162.chunk.js.map",
+    "runtime-main.js": "/trello-of-smoker/static/js/runtime-main.0cf3c3b5.js",
+    "runtime-main.js.map": "/trello-of-smoker/static/js/runtime-main.0cf3c3b5.js.map",
     "static/css/2.20aa2d7b.chunk.css": "/trello-of-smoker/static/css/2.20aa2d7b.chunk.css",
-    "static/js/2.4713b56c.chunk.js": "/trello-of-smoker/static/js/2.4713b56c.chunk.js",
-    "static/js/2.4713b56c.chunk.js.map": "/trello-of-smoker/static/js/2.4713b56c.chunk.js.map",
-    "static/js/3.3a61d380.chunk.js": "/trello-of-smoker/static/js/3.3a61d380.chunk.js",
-    "static/js/3.3a61d380.chunk.js.map": "/trello-of-smoker/static/js/3.3a61d380.chunk.js.map",
+    "static/js/2.5d7f8bb2.chunk.js": "/trello-of-smoker/static/js/2.5d7f8bb2.chunk.js",
+    "static/js/2.5d7f8bb2.chunk.js.map": "/trello-of-smoker/static/js/2.5d7f8bb2.chunk.js.map",
+    "static/js/3.3c67125e.chunk.js": "/trello-of-smoker/static/js/3.3c67125e.chunk.js",
+    "static/js/3.3c67125e.chunk.js.map": "/trello-of-smoker/static/js/3.3c67125e.chunk.js.map",
     "index.html": "/trello-of-smoker/index.html",
     "static/css/2.20aa2d7b.chunk.css.map": "/trello-of-smoker/static/css/2.20aa2d7b.chunk.css.map",
     "static/css/main.28e8209f.chunk.css.map": "/trello-of-smoker/static/css/main.28e8209f.chunk.css.map",
-    "static/js/2.4713b56c.chunk.js.LICENSE.txt": "/trello-of-smoker/static/js/2.4713b56c.chunk.js.LICENSE.txt"
+    "static/js/2.5d7f8bb2.chunk.js.LICENSE.txt": "/trello-of-smoker/static/js/2.5d7f8bb2.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.ac3a73ef.js",
+    "static/js/runtime-main.0cf3c3b5.js",
     "static/css/2.20aa2d7b.chunk.css",
-    "static/js/2.4713b56c.chunk.js",
+    "static/js/2.5d7f8bb2.chunk.js",
     "static/css/main.28e8209f.chunk.css",
-    "static/js/main.79e9afd4.chunk.js"
+    "static/js/main.21026162.chunk.js"
   ]
 }
