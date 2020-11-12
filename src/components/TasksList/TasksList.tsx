@@ -1,10 +1,10 @@
 import React, { useContext, useRef, useState } from 'react';
 import './tasksList.css';
 import TaskCard from '../TaskCard/TaskCard';
-import { List } from '../../types';
+import { List, Task } from '../../types';
 import AddTaskform from '../AddTaskForm/AddTaskform';
 import { useOutsideAlerter } from '../../hooks/useOutsideAlerter';
-import { ListsDataContext } from '../ListsDataContext';
+import { DataContext } from '../DataContext';
 
 
 interface ITasksListProps {
@@ -12,8 +12,10 @@ interface ITasksListProps {
 }
 
 const TasksList: React.FC<ITasksListProps> = ({ list }) => {
-  const { dispatch } = useContext(ListsDataContext);
-  
+
+  const { dispatch, state } = useContext(DataContext);
+
+
   const [opened, setOpened] = useState(false);
   const addCard = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
@@ -50,6 +52,10 @@ const TasksList: React.FC<ITasksListProps> = ({ list }) => {
     e.target.style.height = e.target.scrollHeight +'px';
   };
 
+
+  //подсчет кол-ва заданий в этом листе
+  const tasksCount = state.tasks.filter((task: Task) => task.listId === list.id).length;
+
   /* хук для отлова клика за элементом */
   const wrapperRef = useRef(null);
   useOutsideAlerter(wrapperRef, setOpened);
@@ -64,19 +70,14 @@ const TasksList: React.FC<ITasksListProps> = ({ list }) => {
           <span className="icon-sm icon-delete" onClick={handleDeleteList}>&#10006;</span>
         </div>
         <div className="tasks-list__cards u-fancy-scrollbar">
-          {list.tasks.map(item => {
-            return (
-              <TaskCard key={item.id} list={list} task={item}  />
-            )
-          })}
-          
-           {opened && <div ref={wrapperRef}><AddTaskform setOpened={setOpened} list={list} /></div>}
-          
+          {state.tasks.filter(task => task.listId === list.id)
+                      .map((task, id) => <TaskCard key={id} list={list} task={task} />)}
+          {opened && <div ref={wrapperRef}><AddTaskform setOpened={setOpened} list={list} /></div>}        
         </div>
         {!opened && <div className='tasks-list__card-composer '>
           <div className="tasks-composer__open">
             <span className="icon-sm icon-add"></span>
-            <span className="js-add-another-card" onClick={addCard}>{list.tasks.length > 0 ? 'Add another card' : 'Add card'}</span>
+            <span className="js-add-another-card" onClick={addCard}>{tasksCount > 0 ? 'Add another card' : 'Add card'}</span>
           </div> 
         </div>}
       </div>

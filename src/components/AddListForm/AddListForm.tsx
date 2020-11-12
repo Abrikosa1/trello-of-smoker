@@ -1,26 +1,26 @@
 import React, { SetStateAction, useContext, useRef, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { ListsDataContext } from '../ListsDataContext';
+import { DataContext } from '../DataContext';
 
 interface IAddListFormProps {
   setShowForm: React.Dispatch<SetStateAction<boolean>>;
 }
 
 const AddListForm: React.FC<IAddListFormProps> = ({setShowForm }) => {
-  const { dispatch } = useContext(ListsDataContext);
-  const [newList, setNewList] = useState('');
+  const { dispatch } = useContext(DataContext);
+  const [newListTitle, setNewListTitle] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewList(e.target.value);
+    setNewListTitle(e.target.value);
   };
 
   const listTitleInput = useRef<HTMLInputElement>(null);
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if(newList.length > 1) {
+    if(newListTitle.length > 1) {
       dispatch({
         type: 'ADD_LIST',
-        payload: newList
+        payload: newListTitle
       });
       setShowForm(false);
     }
@@ -34,7 +34,7 @@ const AddListForm: React.FC<IAddListFormProps> = ({setShowForm }) => {
   return(
     <Form>
       <Form.Group className="add-list__form" controlId="exampleForm.ControlTextarea1" style={{ marginBottom: '0px' }}>
-        <Form.Control value={newList} 
+        <Form.Control value={newListTitle} 
           onChange={handleChange}
           className="add-list__input" 
           placeholder="Enter list title..." 

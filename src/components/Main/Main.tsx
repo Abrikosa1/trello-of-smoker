@@ -7,11 +7,10 @@ import TasksList from '../TasksList/TasksList';
 import './main.css';
 
 interface IMainListProps {
-  lists: Array<List>;
+  lists: Array<List>
 }
 
 const Main: React.FC<IMainListProps> = ({ lists }) => {
-
   const [showForm, setShowForm] = useState(false);
 
   const toggleAddList = (e: React.MouseEvent<HTMLSpanElement>) => {

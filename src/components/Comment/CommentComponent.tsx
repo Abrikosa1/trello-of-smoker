@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { Comment, List, Task } from '../../types';
-import { ListsDataContext } from '../ListsDataContext';
+import { DataContext } from '../DataContext';
 import { UserContext } from '../UserContext';
 import './commentComponent.css';
 import { BsChatFill } from "react-icons/bs";
@@ -11,11 +11,11 @@ interface IComment {
   list: List;
 }
 
-const CommentComponent: React.FC<IComment> = ({ list, task, comment }) => {
-  const { dispatch } = useContext(ListsDataContext);
+const CommentComponent: React.FC<IComment> = ({ comment }) => {
+  const { dispatch } = useContext(DataContext);
 
   const author = useContext(UserContext);
-  const date: Date = new Date(comment.create_time);
+  const date: Date = new Date(comment.createTime);
   const month = date.toLocaleString('en-en', { month: 'short' });
   const day = date.getDate();
   const time = date.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
@@ -25,7 +25,7 @@ const CommentComponent: React.FC<IComment> = ({ list, task, comment }) => {
   const hancleClickDeleteComment = (e: React.MouseEvent<HTMLSpanElement>) => {
     dispatch({
       type: 'DELETE_TASK_COMMENT',
-      payload: {listId: list.id, taskId: task.id, commentId: comment.id}
+      payload: { commentId: comment.id }
     })
   };
   
@@ -49,7 +49,7 @@ const CommentComponent: React.FC<IComment> = ({ list, task, comment }) => {
   const hancleSubmitEditComment = (e: React.MouseEvent<HTMLSpanElement>) => {
     dispatch({
       type: 'EDIT_TASK_COMMENT',
-      payload: {listId: list.id, taskId: task.id, commentId: comment.id, newComment: editedComment}
+      payload: {commentId: comment.id, newCommentText: editedComment}
     })
     setEdit(false);
   };

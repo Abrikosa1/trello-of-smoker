@@ -1,38 +1,44 @@
 export type List = {
   id: number;
   title: string;
-  tasks: Array<Task>
 }
 
 export type Task = {
   id: number;
+  listId: number;
   title: string;
   description: string;
   username: string;
   complete: boolean;
-  create_time: Date;
-  comments: Array<Comment>;
+  createTime: Date;
 }
 
 export type Comment = {
   id: number;
+  taskId: number;
   text: string;
   author: string;
-  create_time: Date;
+  createTime: Date;
+}
+
+export type State = {
+  lists: Array<List>;
+  tasks: Array<Task>;
+  comments: Array<Comment>;
 }
 
 export type ToggleCompleted = (selectedTodo: Task) => void;
 
-export type AddTask = (list_id: number, task_id: number, newTask: string, author: string) => void;
+export type AddTask = (listId: number, taskId: number, newTask: string, author: string) => void;
 
-export type DeleteTask = (list_id: number, task_id: number) => void;
+export type DeleteTask = (listId: number, taskId: number) => void;
 
 export type AddList = (newList: string) => void;
 
-export type RenameTask = (list_id: number, task_id: number, newTitle: string) => void;
+export type RenameTask = (listId: number, taskId: number, newTitle: string) => void;
 
-export type RenameList = (list_id: number, newTitle: string) => void;
+export type RenameList = (listId: number, newTitle: string) => void;
 
-export type DeleteList = (list_id: number) => void;
+export type DeleteList = (listId: number) => void;
 
-export type ChangeDescription = (list_id: number, task_id: number, new_desc: string) => void;
+export type ChangeDescription = (listId: number, taskId: number, new_desc: string) => void;

@@ -1,10 +1,9 @@
 import React, { SetStateAction, useContext, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { List, Task } from '../../types';
+import { Comment, List, Task } from '../../types';
 import { UserContext } from '../UserContext';
-import { Comment } from '../../types';
 import './taskModal.css';
-import { ListsDataContext } from '../ListsDataContext';
+import { DataContext } from '../DataContext';
 import CommentsList from '../CommentsList/CommentsList';
 import { IoIosChatbubbles } from "react-icons/io";
 import { MdDescription } from "react-icons/md";
@@ -18,7 +17,7 @@ interface ITaskModal {
 
 
 const TaskModal: React.FC<ITaskModal> = ({ task, list, setTaskModalShow,  taskModalShow}) => {
-  const { dispatch } = useContext(ListsDataContext);
+  const { dispatch, state } = useContext(DataContext);
 
      /* get current username from context*/
   const currentUser = useContext(UserContext);
@@ -33,7 +32,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, list, setTaskModalShow,  taskMo
   const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     dispatch({
       type: 'RENAME_TASK',
-      payload: {listId: list.id, taskId: task.id, newTitle: e.target.value}
+      payload: {taskId: task.id, newTitle: e.target.value}
     })
   };
 
@@ -53,39 +52,40 @@ const TaskModal: React.FC<ITaskModal> = ({ task, list, setTaskModalShow,  taskMo
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
   }
-   const handleDescriptionSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
+   
+  const handleDescriptionSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
      //task.description = description;
-     dispatch({
-       type: 'EDIT_TASK_DESCRIPTION',
-       payload: { listId: list.id, taskId: task.id, newDesc: description}
-     })
-     setEdit(false);
-   }
+    dispatch({
+      type: 'EDIT_TASK_DESCRIPTION',
+      payload: { taskId: task.id, newDesc: description }
+    })
+    setEdit(false);
+  }
   
-   const handleClickDeleteTask = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickDeleteTask = (e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch({
       type: 'DELETE_TASK',
-      payload: {listId: list.id, taskId: task.id}
-      })
+      payload: {taskId: task.id}
+    })
    };
 
 
 
    /* add comment */
-   const [newComment, setNewComment] = useState('');
-   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const [newComment, setNewComment] = useState('');
+  const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewComment(e.target.value);
-   };
+  };
 
   const handleCommentSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const addedComment:Comment = { id: task.comments.length + 1, text: newComment, author: author!, create_time: new Date()};
+    const addedComment:Comment = { id: state.comments.length + 1, taskId: task.id, text: newComment, author: author!, createTime: new Date()};
     dispatch({
       type: 'ADD_TASK_COMMENT',
-      payload: {listId: list.id, taskId: task.id, newComment: addedComment}
+      payload: { newComment: addedComment}
     })
     setNewComment('')
-   }
+  }
 
 
 
@@ -100,7 +100,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, list, setTaskModalShow,  taskMo
   const handleToggleTaskCompleted = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch({
       type: 'TOGGLE_TASK_COMPLETED',
-      payload: {listId: list.id, taskId: task.id}
+      payload: { taskId: task.id }
     })
   };
 
@@ -173,7 +173,7 @@ const TaskModal: React.FC<ITaskModal> = ({ task, list, setTaskModalShow,  taskMo
               <div className="task-comments">
                 <form>
                   <div className="comment-box">
-                    <textarea className="comment-box__input" value={newComment} placeholder="Write a comment…" onKeyUp={textAreaAdjust} onChange={handleCommentChange}>
+                    <textarea className="comment-box__input" value={newComment} placeholder="Write a comment…" onKeyUp={textAreaAdjust}         onChange={handleCommentChange}>
                     </textarea>
                     <div className="comment-box__save">
                       <input className="" disabled={newComment.length === 0} type="submit" value="Save" onClick={handleCommentSubmit}></input>

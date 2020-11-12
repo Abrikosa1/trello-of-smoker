@@ -1,7 +1,7 @@
 import React, { SetStateAction, useContext, useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { List } from '../../types';
-import { ListsDataContext } from '../ListsDataContext';
+import { DataContext } from '../DataContext';
 import { UserContext } from '../UserContext';
 
 import './addTaskform.css';
@@ -12,7 +12,7 @@ interface IAddTaskFormProps {
 }
 
 const AddTaskform: React.FC<IAddTaskFormProps> = ({ setOpened, list }) => {
-  const { dispatch } = useContext(ListsDataContext);
+  const { dispatch, state } = useContext(DataContext);
   //add task
   const [newTask, setNewTask] = useState('');
   const { username } = useContext(UserContext);
@@ -26,7 +26,7 @@ const AddTaskform: React.FC<IAddTaskFormProps> = ({ setOpened, list }) => {
     if(newTask.length > 0) {
       dispatch({
         type: 'ADD_TASK',
-        payload: { listId: list.id, taskId: list.tasks.length + 1, newTaskTitle: newTask, username: username!}
+        payload: { listId: list.id, taskId: state.tasks.length + 1, newTaskTitle: newTask, username: username!}
       })
       
       setOpened(false);
@@ -59,7 +59,7 @@ const AddTaskform: React.FC<IAddTaskFormProps> = ({ setOpened, list }) => {
                   autoFocus
                 />
                 <Form.Group style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }} >
-                  <Button variant="primary" type="submit" onClick={handleSubmit}  >
+                  <Button variant="primary" type="submit" onClick={handleSubmit}>
                     Submit
                   </Button>
                   <Button variant="danger" type="submit" onClick={handleCancel}>
