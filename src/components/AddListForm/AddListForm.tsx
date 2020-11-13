@@ -7,7 +7,9 @@ interface IAddListFormProps {
 }
 
 const AddListForm: React.FC<IAddListFormProps> = ({setShowForm }) => {
+
   const { dispatch } = useContext(DataContext);
+  
   const [newListTitle, setNewListTitle] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,9 +30,11 @@ const AddListForm: React.FC<IAddListFormProps> = ({setShowForm }) => {
       listTitleInput.current!.focus();
     }
   };
+
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     setShowForm(false);
   };
+
   return(
     <Form>
       <Form.Group className="add-list__form" controlId="exampleForm.ControlTextarea1" style={{ marginBottom: '0px' }}>

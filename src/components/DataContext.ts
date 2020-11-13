@@ -9,6 +9,6 @@ interface IDataContext {
 };
 
 export const DataContext = createContext<IDataContext>({
-  state: JSON.parse(localStorage.getItem('lists') as string),
+  state: JSON.parse(localStorage.getItem('data') as string),
   dispatch: () => {}
 });

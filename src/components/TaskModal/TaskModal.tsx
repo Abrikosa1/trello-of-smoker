@@ -7,8 +7,9 @@ import { DataContext } from '../DataContext';
 import CommentsList from '../CommentsList/CommentsList';
 import { IoIosChatbubbles } from "react-icons/io";
 import { MdDescription } from "react-icons/md";
+import { v4 as uuidv4 } from 'uuid';
 
-interface ITaskModal {
+interface IProps {
   task: Task;
   taskModalShow: boolean;
   setTaskModalShow: React.Dispatch<SetStateAction<boolean>>;
@@ -16,8 +17,8 @@ interface ITaskModal {
 }
 
 
-const TaskModal: React.FC<ITaskModal> = ({ task, list, setTaskModalShow,  taskModalShow}) => {
-  const { dispatch, state } = useContext(DataContext);
+const TaskModal: React.FC<IProps> = ({ task, list, setTaskModalShow,  taskModalShow}) => {
+  const { dispatch } = useContext(DataContext);
 
      /* get current username from context*/
   const currentUser = useContext(UserContext);
@@ -67,6 +68,10 @@ const TaskModal: React.FC<ITaskModal> = ({ task, list, setTaskModalShow,  taskMo
       type: 'DELETE_TASK',
       payload: {taskId: task.id}
     })
+    dispatch({
+      type: 'DELETE_ALL_TASK_COMMENTS',
+      payload: { taskId: task.id }
+    })
    };
 
 
@@ -79,15 +84,13 @@ const TaskModal: React.FC<ITaskModal> = ({ task, list, setTaskModalShow,  taskMo
 
   const handleCommentSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const addedComment:Comment = { id: state.comments.length + 1, taskId: task.id, text: newComment, author: author!, createTime: new Date()};
+    const addedComment:Comment = { id: uuidv4(), taskId: task.id, text: newComment, author: author!, createTime: new Date()};
     dispatch({
       type: 'ADD_TASK_COMMENT',
       payload: { newComment: addedComment}
     })
     setNewComment('')
   }
-
-
 
 
   // Для автоматического увеличения высоты texarea

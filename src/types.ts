@@ -1,11 +1,11 @@
 export type List = {
-  id: number;
+  id: string;
   title: string;
 }
 
 export type Task = {
-  id: number;
-  listId: number;
+  id: string;
+  listId: string;
   title: string;
   description: string;
   username: string;
@@ -14,8 +14,8 @@ export type Task = {
 }
 
 export type Comment = {
-  id: number;
-  taskId: number;
+  id: string;
+  taskId: string;
   text: string;
   author: string;
   createTime: Date;

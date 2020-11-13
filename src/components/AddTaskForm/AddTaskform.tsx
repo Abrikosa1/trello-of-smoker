@@ -3,16 +3,18 @@ import { Button, Form } from 'react-bootstrap';
 import { List } from '../../types';
 import { DataContext } from '../DataContext';
 import { UserContext } from '../UserContext';
-
+import { v4 as uuidv4 } from 'uuid';
 import './addTaskform.css';
 
-interface IAddTaskFormProps {
+interface IProps {
   setOpened: React.Dispatch<SetStateAction<boolean>>;
   list: List;
 }
 
-const AddTaskform: React.FC<IAddTaskFormProps> = ({ setOpened, list }) => {
-  const { dispatch, state } = useContext(DataContext);
+const AddTaskform: React.FC<IProps> = ({ setOpened, list }) => {
+  
+  const { dispatch } = useContext(DataContext);
+
   //add task
   const [newTask, setNewTask] = useState('');
   const { username } = useContext(UserContext);
@@ -26,7 +28,7 @@ const AddTaskform: React.FC<IAddTaskFormProps> = ({ setOpened, list }) => {
     if(newTask.length > 0) {
       dispatch({
         type: 'ADD_TASK',
-        payload: { listId: list.id, taskId: state.tasks.length + 1, newTaskTitle: newTask, username: username!}
+        payload: { taskId: uuidv4(), listId: list.id, newTaskTitle: newTask, username: username!}
       })
       
       setOpened(false);

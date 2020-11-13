@@ -5,13 +5,13 @@ import { UserContext } from '../UserContext';
 import './commentComponent.css';
 import { BsChatFill } from "react-icons/bs";
 
-interface IComment {
+interface IProps {
   comment: Comment;
   task: Task;
   list: List;
 }
 
-const CommentComponent: React.FC<IComment> = ({ comment }) => {
+const CommentComponent: React.FC<IProps> = ({ comment }) => {
   const { dispatch } = useContext(DataContext);
 
   const author = useContext(UserContext);

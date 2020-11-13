@@ -1,20 +1,21 @@
 import React, { useContext, useRef, useState } from 'react';
 import './tasksList.css';
 import TaskCard from '../TaskCard/TaskCard';
-import { List, Task } from '../../types';
+import { List } from '../../types';
 import AddTaskform from '../AddTaskForm/AddTaskform';
 import { useOutsideAlerter } from '../../hooks/useOutsideAlerter';
 import { DataContext } from '../DataContext';
 
 
-interface ITasksListProps {
+interface IProps {
   list: List;
 }
 
-const TasksList: React.FC<ITasksListProps> = ({ list }) => {
+const TasksList: React.FC<IProps> = ({ list }) => {
 
   const { dispatch, state } = useContext(DataContext);
 
+ 
 
   const [opened, setOpened] = useState(false);
   const addCard = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -27,7 +28,18 @@ const TasksList: React.FC<ITasksListProps> = ({ list }) => {
     dispatch({
       type: 'DELETE_LIST',
       payload: list.id
-    })
+    });
+    dispatch({
+      type: 'DELETE_ALL_LIST_TASKS',
+      payload: { listId: list.id }
+    });
+    state.tasks.filter(task => task.listId === list.id)
+               .forEach((task) => dispatch(
+                  {
+                    type: 'DELETE_ALL_TASK_COMMENTS',
+                    payload: { taskId: task.id}
+                  }
+                ));
   };
 
   const listTitleInput = useRef<HTMLTextAreaElement>(null);
@@ -54,7 +66,7 @@ const TasksList: React.FC<ITasksListProps> = ({ list }) => {
 
 
   //подсчет кол-ва заданий в этом листе
-  const tasksCount = state.tasks.filter((task: Task) => task.listId === list.id).length;
+  const tasksCount = state.tasks.filter(task => task.listId === list.id).length;
 
   /* хук для отлова клика за элементом */
   const wrapperRef = useRef(null);
@@ -71,7 +83,7 @@ const TasksList: React.FC<ITasksListProps> = ({ list }) => {
         </div>
         <div className="tasks-list__cards u-fancy-scrollbar">
           {state.tasks.filter(task => task.listId === list.id)
-                      .map((task, id) => <TaskCard key={id} list={list} task={task} />)}
+                      .map(task => <TaskCard key={task.id} list={list} task={task} />)}
           {opened && <div ref={wrapperRef}><AddTaskform setOpened={setOpened} list={list} /></div>}        
         </div>
         {!opened && <div className='tasks-list__card-composer '>
