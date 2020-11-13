@@ -12,23 +12,23 @@ interface IProps {
 }
 
 const AddTaskform: React.FC<IProps> = ({ setOpened, list }) => {
-  
+
   const { dispatch } = useContext(DataContext);
 
   //add task
-  const [newTask, setNewTask] = useState('');
+  const [newTaskTitle, setNewTaskTitle] = useState('');
   const { username } = useContext(UserContext);
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewTask(e.target.value);
+    setNewTaskTitle(e.target.value);
   };
 
   const textInput = useRef<HTMLTextAreaElement>(null);
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if(newTask.length > 0) {
+    if(newTaskTitle.length > 0) {
       dispatch({
         type: 'ADD_TASK',
-        payload: { taskId: uuidv4(), listId: list.id, newTaskTitle: newTask, username: username!}
+        payload: { taskId: uuidv4(), listId: list.id, newTaskTitle: newTaskTitle, username: username!}
       })
       
       setOpened(false);
@@ -51,7 +51,7 @@ const AddTaskform: React.FC<IProps> = ({ setOpened, list }) => {
          <div className="card__details">
             <Form className="card-add__form">
               <Form.Group controlId="exampleForm.ControlTextarea1" style={{ marginBottom: '3px' }}>
-                <Form.Control ref={textInput} value={newTask} 
+                <Form.Control ref={textInput} value={newTaskTitle} 
                   onChange={handleChange}
                   className="card-add__textarea" 
                   placeholder="Enter a title for this card…" 
