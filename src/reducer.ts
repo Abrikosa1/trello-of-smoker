@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export type Actions = 
           | { type: 'ADD_LIST', payload: string } 
-          | { type: 'DELETE_LIST', payload: string } 
+          | { type: 'DELETE_LIST', payload: { listId: string, tasksIds: Array<string> } }
           | { type: 'RENAME_LIST', payload: { listId: string, newTitle: string} }
           | { type: 'ADD_TASK', payload: { taskId: string, listId: string, username: string, newTaskTitle: string} } 
           | { type: 'DELETE_TASK', payload: { taskId: string } } 
@@ -26,7 +26,16 @@ const dataReducer = (state: State , action: Actions) => {
                         title: action.payload, 
                       }]};
     case 'DELETE_LIST':
-      return {...state, lists: state.lists.filter(list => list.id !== action.payload)};
+      return {...state, 
+        lists: state.lists.filter(list => list.id !== action.payload.listId),
+        tasks: state.tasks.filter(task => 
+                      task.listId !== action.payload.listId
+                    ),
+        comments: state.comments.filter(comment => 
+                               !action.payload.tasksIds.includes(comment.taskId))
+                                 
+              };
+
     case 'RENAME_LIST':
       return {...state, lists: state.lists.map(list => 
                     list.id === action.payload.listId
@@ -36,7 +45,11 @@ const dataReducer = (state: State , action: Actions) => {
       const added: Task = { id: action.payload.taskId, listId: action.payload.listId, title: action.payload.newTaskTitle, description: "", username: action.payload.username || "", complete: false, createTime: new Date()};
       return {...state, tasks: [...state.tasks, added]};
     case 'DELETE_TASK':
-      return {...state, tasks: state.tasks.filter(task => task.id !== action.payload.taskId)};
+      return {...state, 
+              tasks: state.tasks.filter(task => task.id !== action.payload.taskId), 
+              comments: state.comments.filter(comment => 
+                      comment.taskId !== action.payload.taskId
+                    )};
     case 'RENAME_TASK':
       return {...state, tasks: state.tasks.map(task => 
                     task.id === action.payload.taskId
@@ -63,14 +76,6 @@ const dataReducer = (state: State , action: Actions) => {
                       comment.id === action.payload.commentId 
                       ? {...comment, text: action.payload.newCommentText}
                       : comment
-                    )};
-   case 'DELETE_ALL_TASK_COMMENTS':
-      return {...state, comments: state.comments.filter(comment => 
-                      comment.taskId !== action.payload.taskId
-                    )};
-   case 'DELETE_ALL_LIST_TASKS':
-      return {...state, tasks: state.tasks.filter(task => 
-                      task.listId !== action.payload.listId
                     )};
     default: 
       return state;

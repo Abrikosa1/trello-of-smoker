@@ -25,21 +25,13 @@ const TasksList: React.FC<IProps> = ({ list }) => {
 
   //List events handlers
   const handleDeleteList = (e: React.MouseEvent<HTMLSpanElement>) => {
+    const tasksIdsArr:Array<string>  = state.tasks.filter(task => task.listId === list.id)
+               .map(task => task.id);
     dispatch({
       type: 'DELETE_LIST',
-      payload: list.id
+      payload: { listId: list.id, tasksIds: tasksIdsArr}
     });
-    dispatch({
-      type: 'DELETE_ALL_LIST_TASKS',
-      payload: { listId: list.id }
-    });
-    state.tasks.filter(task => task.listId === list.id)
-               .forEach((task) => dispatch(
-                  {
-                    type: 'DELETE_ALL_TASK_COMMENTS',
-                    payload: { taskId: task.id}
-                  }
-                ));
+
   };
 
   const listTitleInput = useRef<HTMLTextAreaElement>(null);

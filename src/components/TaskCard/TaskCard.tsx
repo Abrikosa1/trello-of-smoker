@@ -18,10 +18,6 @@ const TaskCard: React.FC<IProps> = ({ task, list }) => {
       type: 'DELETE_TASK',
       payload: { taskId: task.id}
     })
-    dispatch({
-      type: 'DELETE_ALL_TASK_COMMENTS',
-      payload: { taskId: task.id }
-    })
   };
 
 
