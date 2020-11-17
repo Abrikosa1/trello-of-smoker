@@ -25,11 +25,9 @@ const TasksList: React.FC<IProps> = ({ list }) => {
 
   //List events handlers
   const handleDeleteList = (e: React.MouseEvent<HTMLSpanElement>) => {
-    const tasksIdsArr:Array<string>  = state.tasks.filter(task => task.listId === list.id)
-               .map(task => task.id);
     dispatch({
       type: 'DELETE_LIST',
-      payload: { listId: list.id, tasksIds: tasksIdsArr}
+      payload: { listId: list.id }
     });
 
   };

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export type Actions = 
           | { type: 'ADD_LIST', payload: string } 
-          | { type: 'DELETE_LIST', payload: { listId: string, tasksIds: Array<string> } }
+          | { type: 'DELETE_LIST', payload: { listId: string } }
           | { type: 'RENAME_LIST', payload: { listId: string, newTitle: string} }
           | { type: 'ADD_TASK', payload: { taskId: string, listId: string, username: string, newTaskTitle: string} } 
           | { type: 'DELETE_TASK', payload: { taskId: string } } 
@@ -26,16 +26,16 @@ const dataReducer = (state: State , action: Actions) => {
                         title: action.payload, 
                       }]};
     case 'DELETE_LIST':
+      const tasksIds:Array<string>  = state.tasks.filter(task => task.listId === action.payload.listId)
+                                                 .map(task => task.id);
       return {...state, 
         lists: state.lists.filter(list => list.id !== action.payload.listId),
         tasks: state.tasks.filter(task => 
                       task.listId !== action.payload.listId
                     ),
         comments: state.comments.filter(comment => 
-                               !action.payload.tasksIds.includes(comment.taskId))
-                                 
+                               !tasksIds.includes(comment.taskId))                  
               };
-
     case 'RENAME_LIST':
       return {...state, lists: state.lists.map(list => 
                     list.id === action.payload.listId
