@@ -1,14 +1,13 @@
-import React, { SetStateAction, useContext, useRef, useState } from 'react';
+import React, { SetStateAction, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { List, Task, Comment } from '../../types';
-import { UserContext } from '../UserContext';
 import './taskModal.css';
 import CommentsList from '../CommentsList/CommentsList';
 import { IoIosChatbubbles } from "react-icons/io";
 import { MdDescription } from "react-icons/md";
 import { v4 as uuidv4 } from 'uuid';
-import { useDispatch } from 'react-redux';
-import { addTaskComment, deleteTask, editTaskDesctiption, renameTask, toggleTaskCompleted } from '../../store/state/actionCreator';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { addTaskComment, deleteTask, editTaskDesctiption, renameTask, toggleTaskCompleted } from '../../store/listsData/actionCreator';
 
 interface IProps {
   task: Task;
@@ -22,8 +21,9 @@ const TaskModal: React.FC<IProps> = ({ task, list, setTaskModalShow,  taskModalS
 
   const dispatch = useDispatch();
      /* get current username from context*/
-  const currentUser = useContext(UserContext);
-  const author = currentUser.username;
+  const selectUsername = (state: any) => state.user.username;
+  const username = useSelector(selectUsername, shallowEqual);
+  const author = username;
   
   
   const ref = useRef(null);
@@ -53,7 +53,6 @@ const TaskModal: React.FC<IProps> = ({ task, list, setTaskModalShow,  taskModalS
   }
    
   const handleDescriptionSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
-     //task.description = description;
     dispatch(editTaskDesctiption(task.id, description));
     setEdit(false);
   }
@@ -162,13 +161,13 @@ const TaskModal: React.FC<IProps> = ({ task, list, setTaskModalShow,  taskModalS
                     </textarea>
                     <div className="comment-box__save">
                       <input className="" disabled={newComment.length === 0} type="submit" value="Save" onClick={handleCommentSubmit}></input>
-                      <p className="author">author:&nbsp;<span className="author-initials" title={author!} aria-label={author!}>{" " + author}</span></p>
+                      <p className="author">author:&nbsp;<span className="author-initials" title={username!} aria-label={username!}>{" " + username}</span></p>
                     </div>
                   </div>
                 </form>
               </div>
               {/* <!-- /.task-comments --> */}
-              <CommentsList list={list} task={task} />
+              <CommentsList list={list} task={task} username={username} />
             </div>
  
           </div>

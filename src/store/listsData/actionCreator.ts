@@ -1,17 +1,18 @@
 import { Comment } from '../../types';
-import { 
-  ADD_LIST, 
-  RENAME_LIST, 
-  DELETE_LIST, 
-  ADD_TASK, 
-  DELETE_TASK, 
-  RENAME_TASK, 
-  EDIT_TASK_DESCRIPTION,
-  TOGGLE_TASK_COMPLETED,
-  ADD_TASK_COMMENT,
-  DELETE_TASK_COMMENT,
-  EDIT_TASK_COMMENT
-} from "../constants";
+
+export const ADD_LIST = 'ADD_LIST';
+export const RENAME_LIST = 'RENAME_LIST';
+export const DELETE_LIST = 'DELETE_LIST';
+
+export const ADD_TASK = 'ADD_TASK';
+export const DELETE_TASK = 'DELETE_TASK';
+export const RENAME_TASK = 'RENAME_TASK';
+export const EDIT_TASK_DESCRIPTION = 'EDIT_TASK_DESCRIPTION';
+export const TOGGLE_TASK_COMPLETED = 'TOGGLE_TASK_COMPLETED';
+
+export const ADD_TASK_COMMENT = 'ADD_TASK_COMMENT';
+export const DELETE_TASK_COMMENT = 'DELETE_TASK_COMMENT';
+export const EDIT_TASK_COMMENT = 'EDIT_TASK_COMMENT';
 
 //lists
 export const addList = (taskTitle: string) => ({

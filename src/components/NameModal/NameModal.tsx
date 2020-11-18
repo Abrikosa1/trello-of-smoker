@@ -1,13 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from '../UserContext';
+import React, { useState, useEffect } from 'react';
 import { Form, Modal, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { addUsername } from '../../store/userData/actionCreator';
 
-const NameModal: React.FC = () => {
+interface IProps {
+  username: string;
+}
+
+const NameModal: React.FC<IProps> = ({ username }) => {
 
   let inputUsername: string;
 
-  const { setUsername } = useContext(UserContext);
-
+  const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -20,16 +24,15 @@ const NameModal: React.FC = () => {
 
   const submitModal = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-      setUsername(inputUsername);
-      localStorage.setItem('username', inputUsername);
+      dispatch(addUsername(inputUsername));
       handleClose();
   };
 
-  useEffect(()=>{
-    if(!localStorage.getItem('username')) {
+  useEffect(() => {
+    if(!username) {
       handleShow();
-    } 
-  },[])
+    }
+  }, [username])
 
   return (
     <>

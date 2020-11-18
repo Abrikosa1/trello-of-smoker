@@ -1,7 +1,7 @@
 import React, { SetStateAction, useRef, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { addList } from '../../store/state/actionCreator';
+import { addList } from '../../store/listsData/actionCreator';
 
 interface IAddListFormProps {
   setShowForm: React.Dispatch<SetStateAction<boolean>>;

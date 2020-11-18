@@ -1,20 +1,20 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Comment, List, Task } from '../../types';
-import { UserContext } from '../UserContext';
 import './commentComponent.css';
 import { BsChatFill } from "react-icons/bs";
 import { useDispatch } from 'react-redux';
-import { deleteTaskComment, editTaskComment } from '../../store/state/actionCreator';
+import { deleteTaskComment, editTaskComment } from '../../store/listsData/actionCreator';
 
 interface IProps {
   comment: Comment;
   task: Task;
   list: List;
+  username: string;
 }
 
-const CommentComponent: React.FC<IProps> = ({ comment }) => {
+const CommentComponent: React.FC<IProps> = ({ comment, username }) => {
   const dispatch = useDispatch();
-  const author = useContext(UserContext);
+  const author = username;
   const date: Date = new Date(comment.createTime);
   const month = date.toLocaleString('en-en', { month: 'short' });
   const day = date.getDate();
@@ -70,7 +70,7 @@ const CommentComponent: React.FC<IProps> = ({ comment }) => {
         </div>}
       </div>
       <div className="comment__footer">
-        {((comment.author === author.username) && !edit) && <span className="comment__edit" onClick={hancleClickEditComment}>Edit</span>}
+        {((comment.author === author) && !edit) && <span className="comment__edit" onClick={hancleClickEditComment}>Edit</span>}
           <div className={`task-description__edit ${!edit ? 'edit_closed' : ''}`}>
               <textarea onKeyUp={textAreaAdjust} value={editedComment} onChange={handleCommentChange} className="description-edit__texarea card-description" placeholder="Oh, have you changed your mind?" >
               </textarea>
@@ -79,7 +79,7 @@ const CommentComponent: React.FC<IProps> = ({ comment }) => {
                 <span className="edit-controls__cancel-icon icon-sm" onClick={handleEditComment}>&#10006;</span>
               </div>
           </div>
-        {((comment.author === author.username) && !edit) && <span className="comment__edit" onClick={hancleClickDeleteComment}>Deliete</span>}
+        {((comment.author === author) && !edit) && <span className="comment__edit" onClick={hancleClickDeleteComment}>Deliete</span>}
       </div>
     </div>
   );

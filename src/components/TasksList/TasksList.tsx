@@ -5,7 +5,7 @@ import { List, Task } from '../../types';
 import AddTaskform from '../AddTaskForm/AddTaskform';
 import { useOutsideAlerter } from '../../hooks/useOutsideAlerter';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { deleteList, renameList } from '../../store/state/actionCreator';
+import { deleteList, renameList } from '../../store/listsData/actionCreator';
 
 
 interface IProps {

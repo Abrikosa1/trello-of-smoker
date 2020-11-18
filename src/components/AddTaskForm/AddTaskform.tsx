@@ -1,23 +1,23 @@
-import React, { SetStateAction, useContext, useRef, useState } from 'react';
+import React, { SetStateAction, useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { List } from '../../types';
-import { UserContext } from '../UserContext';
 import { v4 as uuidv4 } from 'uuid';
 import './addTaskform.css';
-import { useDispatch } from 'react-redux';
-import { addTask } from '../../store/state/actionCreator';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { addTask } from '../../store/listsData/actionCreator';
 
 interface IProps {
   setOpened: React.Dispatch<SetStateAction<boolean>>;
   list: List;
 }
 
-const AddTaskform: React.FC<IProps> = ({ setOpened, list }) => {
+const AddTaskform: React.FC<IProps> = React.memo(({ setOpened, list }) => {
 
   const dispatch = useDispatch();
   //add task
   const [newTaskTitle, setNewTaskTitle] = useState('');
-  const { username } = useContext(UserContext);
+  const selectUsername = (state: any) => state.user.username;
+  const username = useSelector(selectUsername, shallowEqual);
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTaskTitle(e.target.value);
   };
@@ -70,6 +70,6 @@ const AddTaskform: React.FC<IProps> = ({ setOpened, list }) => {
       </div>
     </div>
   );
-}
+});
 
 export default AddTaskform;

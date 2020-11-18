@@ -1,23 +1,22 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import NameModal from '../NameModal/NameModal';
 import { Navbar, Badge } from "react-bootstrap";
-import { UserContext } from '../UserContext';
 
+interface IProps {
+  username: string;
+}
 
-const Header: React.FC = () => {
+const Header: React.FC<IProps> = ({ username }) => {
  
-  const { username } = useContext(UserContext);
-
-
   return(
     <> 
       <style type="text/css">
-      {`
-      .badge-xxl {
-        font-size: inherit;
-      }
-      `}
-    </style>
+        {`
+        .badge-xxl {
+          font-size: inherit;
+        }
+        `}
+      </style>
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="justify-content-between">
 
         <Navbar.Brand>Trello(no)</Navbar.Brand>
@@ -27,7 +26,7 @@ const Header: React.FC = () => {
         </Navbar.Text>
        
       </Navbar>
-      <NameModal />
+      <NameModal username={username} />
     </>
     
   )

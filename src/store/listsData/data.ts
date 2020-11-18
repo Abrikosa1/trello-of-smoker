@@ -1,5 +1,6 @@
 import { List, Task, Comment, State } from '../../types';
 import { v4 as uuidv4 } from 'uuid';
+import { load } from 'redux-localstorage-simple';
 import { 
   ADD_LIST, 
   RENAME_LIST, 
@@ -12,7 +13,7 @@ import {
   ADD_TASK_COMMENT,
   DELETE_TASK_COMMENT,
   EDIT_TASK_COMMENT
-} from "../constants";
+} from "./actionCreator";
 
 const list0Id = uuidv4(),
       list1Id = uuidv4(),
@@ -68,7 +69,17 @@ const initialState = {
   comments: initialComments
 }
 
-const data = (state: State = initialState, action: any): any => {
+let initialData: any = load({ namespace: 'data' });
+
+if(!initialData || !initialData.data) {
+  initialData = {
+    data: initialState,
+  }
+}
+
+
+
+const data = (state: State = initialData.data, action: any): any => {
   switch (action.type) {
     case ADD_LIST:
       return {

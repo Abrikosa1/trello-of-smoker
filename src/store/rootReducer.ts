@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import data from './state/data';
-// import filters from './filters';
+import data from './listsData/data';
+import user from './userData/user';
 
-const rootReducer = combineReducers({ data });
+const rootReducer = combineReducers({ data, user });
 
 export default rootReducer;
 export type RootState = ReturnType<typeof rootReducer>;

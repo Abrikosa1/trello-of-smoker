@@ -4,7 +4,7 @@ import TaskModal from '../TaskModal/TaskModal';
 import './taskCard.css';
 import { BsChatFill } from "react-icons/bs";
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { deleteTask } from '../../store/state/actionCreator';
+import { deleteTask } from '../../store/listsData/actionCreator';
 
 interface IProps {
   task: Task;
