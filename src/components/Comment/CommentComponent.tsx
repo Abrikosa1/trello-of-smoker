@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Comment, List, Task } from '../../types';
-import { DataContext } from '../DataContext';
 import { UserContext } from '../UserContext';
 import './commentComponent.css';
 import { BsChatFill } from "react-icons/bs";
+import { useDispatch } from 'react-redux';
+import { deleteTaskComment, editTaskComment } from '../../store/state/actionCreator';
 
 interface IProps {
   comment: Comment;
@@ -12,8 +13,7 @@ interface IProps {
 }
 
 const CommentComponent: React.FC<IProps> = ({ comment }) => {
-  const { dispatch } = useContext(DataContext);
-
+  const dispatch = useDispatch();
   const author = useContext(UserContext);
   const date: Date = new Date(comment.createTime);
   const month = date.toLocaleString('en-en', { month: 'short' });
@@ -23,10 +23,7 @@ const CommentComponent: React.FC<IProps> = ({ comment }) => {
 
   /* Delete comment */
   const hancleClickDeleteComment = (e: React.MouseEvent<HTMLSpanElement>) => {
-    dispatch({
-      type: 'DELETE_TASK_COMMENT',
-      payload: { commentId: comment.id }
-    })
+    dispatch((deleteTaskComment(comment.id)));
   };
   
 
@@ -47,10 +44,7 @@ const CommentComponent: React.FC<IProps> = ({ comment }) => {
   }
 
   const hancleSubmitEditComment = (e: React.MouseEvent<HTMLSpanElement>) => {
-    dispatch({
-      type: 'EDIT_TASK_COMMENT',
-      payload: {commentId: comment.id, newCommentText: editedComment}
-    })
+    dispatch((editTaskComment(comment.id, editedComment)));
     setEdit(false);
   };
 

@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { List, Task, Comment } from '../../types';
-import { DataContext } from '../DataContext';
 import TaskModal from '../TaskModal/TaskModal';
 import './taskCard.css';
 import { BsChatFill } from "react-icons/bs";
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { deleteTask } from '../../store/state/actionCreator';
 
 interface IProps {
   task: Task;
@@ -11,16 +12,15 @@ interface IProps {
 };
 
 const TaskCard: React.FC<IProps> = ({ task, list }) => {
-  const { dispatch, state } = useContext(DataContext);
+  const dispatch = useDispatch();
   
   const handleDeleteTask = (e: React.MouseEvent<HTMLSpanElement>) => {
-    dispatch({
-      type: 'DELETE_TASK',
-      payload: { taskId: task.id}
-    })
+    dispatch(deleteTask(task.id));
   };
 
-
+  const selectComments = (state: any) => state.data.comments;
+  const comments = useSelector(selectComments, shallowEqual)
+  
   const [taskModalShow, setTaskModalShow] = useState(false);
 
   const handleShowModal = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -29,8 +29,8 @@ const TaskCard: React.FC<IProps> = ({ task, list }) => {
 
 
     //подсчет кол-ва комментов в этой задачке
-  const commentsCount = state.comments.filter((comment: Comment) => comment.taskId === task.id).length;
-  
+  const commentsCount = comments.filter((comment: Comment) => comment.taskId === task.id).length;
+
   return( 
     <>
       <div className="card" key={ task.title }>

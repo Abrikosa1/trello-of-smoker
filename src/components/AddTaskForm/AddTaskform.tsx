@@ -1,10 +1,11 @@
 import React, { SetStateAction, useContext, useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { List } from '../../types';
-import { DataContext } from '../DataContext';
 import { UserContext } from '../UserContext';
 import { v4 as uuidv4 } from 'uuid';
 import './addTaskform.css';
+import { useDispatch } from 'react-redux';
+import { addTask } from '../../store/state/actionCreator';
 
 interface IProps {
   setOpened: React.Dispatch<SetStateAction<boolean>>;
@@ -13,8 +14,7 @@ interface IProps {
 
 const AddTaskform: React.FC<IProps> = ({ setOpened, list }) => {
 
-  const { dispatch } = useContext(DataContext);
-
+  const dispatch = useDispatch();
   //add task
   const [newTaskTitle, setNewTaskTitle] = useState('');
   const { username } = useContext(UserContext);
@@ -26,11 +26,7 @@ const AddTaskform: React.FC<IProps> = ({ setOpened, list }) => {
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if(newTaskTitle.length > 0) {
-      dispatch({
-        type: 'ADD_TASK',
-        payload: { taskId: uuidv4(), listId: list.id, newTaskTitle: newTaskTitle, username: username!}
-      })
-      
+      dispatch(addTask(uuidv4(), list.id, username!, newTaskTitle));
       setOpened(false);
     } else {      
       textInput.current!.focus();

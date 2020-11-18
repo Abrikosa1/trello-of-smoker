@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import { useOutsideAlerter } from '../../hooks/useOutsideAlerter';
 import { List } from '../../types';
 import AddListForm from '../AddListForm/AddListForm';
@@ -7,10 +8,10 @@ import TasksList from '../TasksList/TasksList';
 import './main.css';
 
 interface IProps {
-  lists: Array<List>
+  
 }
 
-const Main: React.FC<IProps> = ({ lists }) => {
+const Main: React.FC<IProps> = React.memo(() => {
   const [showForm, setShowForm] = useState(false);
 
   const toggleAddList = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -18,6 +19,9 @@ const Main: React.FC<IProps> = ({ lists }) => {
     setShowForm(true);
   };
 
+
+  const selectLists = (state: any) => state.data.lists;
+  const lists = useSelector(selectLists, shallowEqual)
 
   /* хук для отлова клика за элементом */
   const wrapperRef = useRef(null);
@@ -27,7 +31,7 @@ const Main: React.FC<IProps> = ({ lists }) => {
     <> 
       <main>
         <div id="board" className="board u-fancy-scrollbar">
-          {lists.map(list => {
+          {lists.map((list: List) => {
             return (
               <TasksList key={list.id} list={list} />
             )
@@ -43,6 +47,6 @@ const Main: React.FC<IProps> = ({ lists }) => {
       </main>
     </>
   );
-}
+});
 
 export default Main;

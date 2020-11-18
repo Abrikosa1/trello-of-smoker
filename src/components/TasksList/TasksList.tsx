@@ -1,21 +1,23 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import './tasksList.css';
 import TaskCard from '../TaskCard/TaskCard';
-import { List } from '../../types';
+import { List, Task } from '../../types';
 import AddTaskform from '../AddTaskForm/AddTaskform';
 import { useOutsideAlerter } from '../../hooks/useOutsideAlerter';
-import { DataContext } from '../DataContext';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { deleteList, renameList } from '../../store/state/actionCreator';
 
 
 interface IProps {
   list: List;
 }
 
-const TasksList: React.FC<IProps> = ({ list }) => {
+const TasksList: React.FC<IProps> = React.memo(({ list }) => {
 
-  const { dispatch, state } = useContext(DataContext);
+  const selectData = (state: any) => state.data;
+  const data = useSelector(selectData, shallowEqual)
 
- 
+  const dispatch = useDispatch();
 
   const [opened, setOpened] = useState(false);
   const addCard = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -25,22 +27,13 @@ const TasksList: React.FC<IProps> = ({ list }) => {
 
   //List events handlers
   const handleDeleteList = (e: React.MouseEvent<HTMLSpanElement>) => {
-    const tasksIdsArr:Array<string>  = state.tasks.filter(task => task.listId === list.id)
-               .map(task => task.id);
-    dispatch({
-      type: 'DELETE_LIST',
-      payload: { listId: list.id, tasksIds: tasksIdsArr}
-    });
-
+    dispatch(deleteList(list.id,));
   };
 
   const listTitleInput = useRef<HTMLTextAreaElement>(null);
   
   const handleRenameList = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch({
-      type: 'RENAME_LIST',
-      payload: { listId: list.id, newTitle: e.target.value }
-    })
+    dispatch(renameList(list.id, e.target.value));
   };
 
   const handleBlurList = (e: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -58,7 +51,7 @@ const TasksList: React.FC<IProps> = ({ list }) => {
 
 
   //подсчет кол-ва заданий в этом листе
-  const tasksCount = state.tasks.filter(task => task.listId === list.id).length;
+  const tasksCount = data.tasks.filter((task: Task) => task.listId === list.id).length;
 
   /* хук для отлова клика за элементом */
   const wrapperRef = useRef(null);
@@ -74,8 +67,8 @@ const TasksList: React.FC<IProps> = ({ list }) => {
           <span className="icon-sm icon-delete" onClick={handleDeleteList}>&#10006;</span>
         </div>
         <div className="tasks-list__cards u-fancy-scrollbar">
-          {state.tasks.filter(task => task.listId === list.id)
-                      .map(task => <TaskCard key={task.id} list={list} task={task} />)}
+          {data.tasks.filter((task: Task) => task.listId === list.id)
+                      .map((task: Task) => <TaskCard key={task.id} list={list} task={task} />)}
           {opened && <div ref={wrapperRef}><AddTaskform setOpened={setOpened} list={list} /></div>}        
         </div>
         {!opened && <div className='tasks-list__card-composer '>
@@ -87,7 +80,7 @@ const TasksList: React.FC<IProps> = ({ list }) => {
       </div>
     </div>
   )
-};
+});
 
 export default TasksList;
 

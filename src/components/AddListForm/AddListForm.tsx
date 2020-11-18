@@ -1,15 +1,15 @@
-import React, { SetStateAction, useContext, useRef, useState } from 'react';
+import React, { SetStateAction, useRef, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import { DataContext } from '../DataContext';
+import { useDispatch } from 'react-redux';
+import { addList } from '../../store/state/actionCreator';
 
 interface IAddListFormProps {
   setShowForm: React.Dispatch<SetStateAction<boolean>>;
 }
 
-const AddListForm: React.FC<IAddListFormProps> = ({setShowForm }) => {
+const AddListForm: React.FC<IAddListFormProps> = React.memo(({setShowForm}) => {
 
-  const { dispatch } = useContext(DataContext);
-  
+  const dispatch = useDispatch();
   const [newListTitle, setNewListTitle] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -18,12 +18,8 @@ const AddListForm: React.FC<IAddListFormProps> = ({setShowForm }) => {
 
   const listTitleInput = useRef<HTMLInputElement>(null);
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
     if(newListTitle.length > 1) {
-      dispatch({
-        type: 'ADD_LIST',
-        payload: newListTitle
-      });
+      dispatch(addList(newListTitle))
       setShowForm(false);
     }
     else {
@@ -56,6 +52,6 @@ const AddListForm: React.FC<IAddListFormProps> = ({setShowForm }) => {
       </Form.Group>
     </Form>
   )
-}
+})
 
 export default AddListForm;

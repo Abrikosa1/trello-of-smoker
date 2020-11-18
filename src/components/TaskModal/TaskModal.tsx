@@ -1,13 +1,14 @@
 import React, { SetStateAction, useContext, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { Comment, List, Task } from '../../types';
+import { List, Task, Comment } from '../../types';
 import { UserContext } from '../UserContext';
 import './taskModal.css';
-import { DataContext } from '../DataContext';
 import CommentsList from '../CommentsList/CommentsList';
 import { IoIosChatbubbles } from "react-icons/io";
 import { MdDescription } from "react-icons/md";
 import { v4 as uuidv4 } from 'uuid';
+import { useDispatch } from 'react-redux';
+import { addTaskComment, deleteTask, editTaskDesctiption, renameTask, toggleTaskCompleted } from '../../store/state/actionCreator';
 
 interface IProps {
   task: Task;
@@ -18,8 +19,8 @@ interface IProps {
 
 
 const TaskModal: React.FC<IProps> = ({ task, list, setTaskModalShow,  taskModalShow}) => {
-  const { dispatch } = useContext(DataContext);
 
+  const dispatch = useDispatch();
      /* get current username from context*/
   const currentUser = useContext(UserContext);
   const author = currentUser.username;
@@ -31,10 +32,7 @@ const TaskModal: React.FC<IProps> = ({ task, list, setTaskModalShow,  taskModalS
   }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    dispatch({
-      type: 'RENAME_TASK',
-      payload: {taskId: task.id, newTitle: e.target.value}
-    })
+    dispatch(renameTask(task.id, e.target.value));
   };
 
   const handleTitleBlur = (e: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -56,22 +54,12 @@ const TaskModal: React.FC<IProps> = ({ task, list, setTaskModalShow,  taskModalS
    
   const handleDescriptionSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
      //task.description = description;
-    dispatch({
-      type: 'EDIT_TASK_DESCRIPTION',
-      payload: { taskId: task.id, newDesc: description }
-    })
+    dispatch(editTaskDesctiption(task.id, description));
     setEdit(false);
   }
   
   const handleClickDeleteTask = (e: React.MouseEvent<HTMLButtonElement>) => {
-    dispatch({
-      type: 'DELETE_TASK',
-      payload: {taskId: task.id}
-    })
-    dispatch({
-      type: 'DELETE_ALL_TASK_COMMENTS',
-      payload: { taskId: task.id }
-    })
+    dispatch(deleteTask(task.id));
    };
 
 
@@ -84,12 +72,9 @@ const TaskModal: React.FC<IProps> = ({ task, list, setTaskModalShow,  taskModalS
 
   const handleCommentSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const addedComment:Comment = { id: uuidv4(), taskId: task.id, text: newComment, author: author!, createTime: new Date()};
-    dispatch({
-      type: 'ADD_TASK_COMMENT',
-      payload: { newComment: addedComment}
-    })
-    setNewComment('')
+    const addedComment: Comment = { id: uuidv4(), taskId: task.id, text: newComment, author: author!, createTime: new Date()};
+    dispatch(addTaskComment(addedComment));
+    setNewComment('');
   }
 
 
@@ -101,10 +86,7 @@ const TaskModal: React.FC<IProps> = ({ task, list, setTaskModalShow,  taskModalS
 
 
   const handleToggleTaskCompleted = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch({
-      type: 'TOGGLE_TASK_COMPLETED',
-      payload: { taskId: task.id }
-    })
+    dispatch(toggleTaskCompleted(task.id));
   };
 
   return (
