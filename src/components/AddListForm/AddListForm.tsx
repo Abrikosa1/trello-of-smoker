@@ -1,7 +1,7 @@
 import React, { SetStateAction, useRef, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { addList } from '../../store/listsData/actionCreator';
+import { addList } from '../../store/listsData/actionCreators';
 
 import './addListForm.css';
 
@@ -20,6 +20,7 @@ const AddListForm: React.FC<IAddListFormProps> = React.memo(({setShowForm}) => {
 
   const listTitleInput = useRef<HTMLInputElement>(null);
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     if(newListTitle.length > 1) {
       dispatch(addList(newListTitle))
       setShowForm(false);
@@ -30,6 +31,7 @@ const AddListForm: React.FC<IAddListFormProps> = React.memo(({setShowForm}) => {
   };
 
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     setShowForm(false);
   };
 

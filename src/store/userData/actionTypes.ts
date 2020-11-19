@@ -1,4 +1,4 @@
-import { ADD_USER } from "./actionCreator";
+import { ADD_USER } from "./actionCreators";
 
 interface AddUsernameAction {
   type: typeof ADD_USER

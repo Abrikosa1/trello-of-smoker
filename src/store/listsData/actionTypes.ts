@@ -1,5 +1,4 @@
-import { Comment } from '../types';
-import { ADD_LIST, ADD_TASK, ADD_TASK_COMMENT, DELETE_LIST, DELETE_TASK, DELETE_TASK_COMMENT, EDIT_TASK_COMMENT, EDIT_TASK_DESCRIPTION, RENAME_LIST, RENAME_TASK, TOGGLE_TASK_COMPLETED } from "./actionCreator";
+import { ADD_LIST, ADD_TASK, ADD_TASK_COMMENT, DELETE_LIST, DELETE_TASK, DELETE_TASK_COMMENT, EDIT_TASK_COMMENT, EDIT_TASK_DESCRIPTION, RENAME_LIST, RENAME_TASK, TOGGLE_TASK_COMPLETED } from "./actionCreators";
 
 interface AddListAction {
   type: typeof ADD_LIST
@@ -43,7 +42,7 @@ interface ActionToggleTaskCompleted {
 
 interface ActionAddTaskComment {
   type: typeof ADD_TASK_COMMENT
-  payload: { newComment: Comment }
+  payload: { taskId: string, text: string, author: string }
 }
 
 interface ActionDeleteTaskComment {

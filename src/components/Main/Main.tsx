@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useOutsideAlerter } from '../../hooks/useOutsideAlerter';
-import { List, State } from '../../store/types';
+import { selectLists } from '../../store/selectors';
+import { List } from '../../store/types';
 import AddListForm from '../AddListForm/AddListForm';
 import TasksList from '../TasksList/TasksList';
 
@@ -13,15 +14,14 @@ interface IProps {
 
 const Main: React.FC<IProps> = React.memo(() => {
   const [showForm, setShowForm] = useState(false);
+  const lists = useSelector(selectLists, shallowEqual);
+
 
   const toggleAddList = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.preventDefault();
     setShowForm(true);
   };
 
-
-  const selectLists = (state: State) => state.data.lists;
-  const lists = useSelector(selectLists, shallowEqual)
 
   /* хук для отлова клика за элементом */
   const wrapperRef = useRef<HTMLDivElement>(null);

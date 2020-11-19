@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { List, Task, State } from '../../store/types';
+import { List, Task } from '../../store/types';
 import TaskModal from '../TaskModal/TaskModal';
 import './taskCard.css';
 import { BsChatFill } from "react-icons/bs";
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { deleteTask } from '../../store/listsData/actionCreator';
+import { deleteTask } from '../../store/listsData/actionCreators';
+import { selectCommentsByTaskId } from '../../store/selectors';
 
 interface IProps {
   task: Task;
@@ -18,8 +19,6 @@ const TaskCard: React.FC<IProps> = React.memo(({ task, list }) => {
     dispatch(deleteTask(task.id));
   };
 
-  const selectComments = (state: State) => state.data.comments;
-  const comments = useSelector(selectComments, shallowEqual)
   
   const [taskModalShow, setTaskModalShow] = useState(false);
 
@@ -28,8 +27,7 @@ const TaskCard: React.FC<IProps> = React.memo(({ task, list }) => {
   };
 
 
-    //подсчет кол-ва комментов в этой задачке
-  const commentsCount = comments.filter(comment => comment.taskId === task.id).length;
+  const comments = useSelector(selectCommentsByTaskId(task.id), shallowEqual);
 
   return( 
     <>
@@ -42,7 +40,7 @@ const TaskCard: React.FC<IProps> = React.memo(({ task, list }) => {
           <div className="card__badges" onClick={handleShowModal}>
             <div className="card__badge">
               <span className="badge__icon badge__icon_sm badge__icon_comment" ><BsChatFill /></span>
-              <span className="badge__text">{commentsCount}</span>
+              <span className="badge__text">{comments.length}</span>
             </div>
           </div>
         </div>

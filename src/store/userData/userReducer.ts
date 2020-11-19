@@ -1,6 +1,6 @@
 import { load } from 'redux-localstorage-simple';
 import { User } from '../types';
-import { ADD_USER } from "./actionCreator";
+import { ADD_USER } from "./actionCreators";
 import { UserActionTypes } from './actionTypes';
 
 let initialState: any = load({ namespace: 'data' });

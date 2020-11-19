@@ -1,13 +1,13 @@
 import React, { SetStateAction, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { List, Task, Comment, State } from '../../store/types';
+import { List, Task} from '../../store/types';
 import './taskModal.css';
 import CommentsList from '../CommentsList/CommentsList';
 import { IoIosChatbubbles } from "react-icons/io";
 import { MdDescription } from "react-icons/md";
-import { v4 as uuidv4 } from 'uuid';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { addTaskComment, deleteTask, editTaskDesctiption, renameTask, toggleTaskCompleted } from '../../store/listsData/actionCreator';
+import { addTaskComment, deleteTask, editTaskDesctiption, renameTask, toggleTaskCompleted } from '../../store/listsData/actionCreators';
+import { selectCurrentUsername } from '../../store/selectors';
 
 interface IProps {
   task: Task;
@@ -21,8 +21,7 @@ const TaskModal: React.FC<IProps> =  React.memo(({ task, list, setTaskModalShow,
 
   const dispatch = useDispatch();
      /* get current username from context*/
-  const selectUsername = (state: State) => state.user.username;
-  const username = useSelector(selectUsername, shallowEqual);
+  const username = useSelector(selectCurrentUsername, shallowEqual);
   const author = username;
   
   
@@ -71,14 +70,13 @@ const TaskModal: React.FC<IProps> =  React.memo(({ task, list, setTaskModalShow,
 
   const handleCommentSubmit = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const addedComment: Comment = { id: uuidv4(), taskId: task.id, text: newComment, author: author!, createTime: new Date()};
-    dispatch(addTaskComment(addedComment));
+    dispatch(addTaskComment(task.id, newComment, author));
     setNewComment('');
   }
 
 
   // Для автоматического увеличения высоты texarea
-  const textAreaAdjust = (e: any) => {
+  const adjustTextArea = (e: any) => {
     e.target.style.height = '1px';
     e.target.style.height = e.target.scrollHeight +'px';
   };
@@ -103,7 +101,7 @@ const TaskModal: React.FC<IProps> =  React.memo(({ task, list, setTaskModalShow,
           <div className="task-details__header">
             <span className="task-details__icon">&#128073;</span>
             <div className="task-details__title">
-              <textarea value={task.title} onKeyUp={textAreaAdjust} className={`task-details__title task-details__input ${task.complete ? 'complete' : 
+              <textarea value={task.title} onKeyUp={adjustTextArea} className={`task-details__title task-details__input ${task.complete ? 'complete' : 
             ''}`} onChange={handleTitleChange} onBlur={handleTitleBlur} required></textarea>
             </div>
             <div className="task-details__list-info">
@@ -124,7 +122,7 @@ const TaskModal: React.FC<IProps> =  React.memo(({ task, list, setTaskModalShow,
               <div className="task-description__text">
                 {(task.description && !edit) ? <p>{task.description}</p> : ""}
                 <div className={`task-description__edit ${!edit ? 'edit_closed' : ''}`}>
-                  <textarea onKeyUp={textAreaAdjust} value={description} onChange={handleDescriptionChange} className="description-edit__texarea card-description" placeholder="Add a more detailed description…" >
+                  <textarea onKeyUp={adjustTextArea} value={description} onChange={handleDescriptionChange} className="description-edit__texarea card-description" placeholder="Add a more detailed description…" >
                   </textarea>
                   <div className="edit-controls">
                     <input className="edit-controls__save-btn" type="submit" value="Save" onClick={handleDescriptionSubmit}/>
@@ -157,7 +155,7 @@ const TaskModal: React.FC<IProps> =  React.memo(({ task, list, setTaskModalShow,
               <div className="task-comments">
                 <form>
                   <div className="comment-box">
-                    <textarea className="comment-box__input" value={newComment} placeholder="Write a comment…" onKeyUp={textAreaAdjust}         onChange={handleCommentChange}>
+                    <textarea className="comment-box__input" value={newComment} placeholder="Write a comment…" onKeyUp={adjustTextArea}         onChange={handleCommentChange}>
                     </textarea>
                     <div className="comment-box__save">
                       <input className="" disabled={newComment.length === 0} type="submit" value="Save" onClick={handleCommentSubmit}></input>

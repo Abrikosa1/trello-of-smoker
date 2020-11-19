@@ -13,7 +13,7 @@ import {
   ADD_TASK_COMMENT,
   DELETE_TASK_COMMENT,
   EDIT_TASK_COMMENT
-} from "./actionCreator";
+} from "./actionCreators";
 import { DataActionTypes } from './actionTypes';
 
 const list0Id = uuidv4(),
@@ -114,8 +114,8 @@ const dataReducer = (state: Data = initialState.data, action: DataActionTypes): 
           )
         };
     case ADD_TASK:
-      const added: Task = { id: action.payload.taskId, listId: action.payload.listId, title: action.payload.newTaskTitle, description: "", username: action.payload.username || "", complete: false, createTime: new Date()};
-      return {...state, tasks: [...state.tasks, added]};
+      const newTask: Task = { id: action.payload.taskId, listId: action.payload.listId, title: action.payload.newTaskTitle, description: "", username: action.payload.username || "", complete: false, createTime: new Date()};
+      return {...state, tasks: [...state.tasks, newTask]};
     case DELETE_TASK:
       return {
         ...state, 
@@ -143,7 +143,8 @@ const dataReducer = (state: Data = initialState.data, action: DataActionTypes): 
          : task)
         };
     case ADD_TASK_COMMENT:
-      return {...state, comments: [...state.comments, action.payload.newComment]};
+      const newComment: Comment = { id: uuidv4(), taskId: action.payload.taskId, text: action.payload.text, author: action.payload.author, createTime: new Date() }
+      return {...state, comments: [...state.comments, newComment]};
     case DELETE_TASK_COMMENT:
       return {
         ...state, 

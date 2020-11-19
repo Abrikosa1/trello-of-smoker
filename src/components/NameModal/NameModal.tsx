@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Modal, Button, InputGroup, FormControl } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { addUsername } from '../../store/userData/actionCreator';
+import { addUsername } from '../../store/userData/actionCreators';
 
 interface IProps {
   username: string;

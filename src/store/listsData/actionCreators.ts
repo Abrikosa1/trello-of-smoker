@@ -1,4 +1,3 @@
-import { Comment } from '../types';
 import { DataActionTypes } from './actionTypes';
 
 export const ADD_LIST = 'ADD_LIST';
@@ -60,9 +59,9 @@ export const toggleTaskCompleted = (taskId: string): DataActionTypes => ({
 });
 
 //comments
-export const addTaskComment = (newComment: Comment): DataActionTypes => ({
+export const addTaskComment = (taskId: string, text: string, author: string): DataActionTypes => ({
   type: ADD_TASK_COMMENT,
-  payload: {newComment: newComment},
+  payload: {taskId: taskId, text: text, author: author},
 });
 
 export const deleteTaskComment = (commentId: string): DataActionTypes => ({
@@ -71,7 +70,7 @@ export const deleteTaskComment = (commentId: string): DataActionTypes => ({
 });
 
 export const editTaskComment = (commentId: string, newCommentText: string): DataActionTypes => ({
-  type:   EDIT_TASK_COMMENT,
+  type: EDIT_TASK_COMMENT,
   payload: {commentId: commentId, newCommentText: newCommentText},
 });
 
