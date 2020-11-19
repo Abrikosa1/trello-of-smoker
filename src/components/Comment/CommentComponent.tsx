@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Comment, List, Task } from '../../types';
-import './commentComponent.css';
+import { Comment, List, Task } from '../../store/types';
 import { BsChatFill } from "react-icons/bs";
 import { useDispatch } from 'react-redux';
 import { deleteTaskComment, editTaskComment } from '../../store/listsData/actionCreator';
+
+import './commentComponent.css';
 
 interface IProps {
   comment: Comment;

@@ -3,6 +3,8 @@ import { Form, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { addList } from '../../store/listsData/actionCreator';
 
+import './addListForm.css';
+
 interface IAddListFormProps {
   setShowForm: React.Dispatch<SetStateAction<boolean>>;
 }
@@ -48,7 +50,6 @@ const AddListForm: React.FC<IAddListFormProps> = React.memo(({setShowForm}) => {
             Cancel
           </Button>
         </Form.Group>
-        
       </Form.Group>
     </Form>
   )

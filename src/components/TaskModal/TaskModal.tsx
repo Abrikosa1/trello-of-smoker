@@ -1,6 +1,6 @@
 import React, { SetStateAction, useRef, useState } from 'react';
 import { Modal } from 'react-bootstrap';
-import { List, Task, Comment } from '../../types';
+import { List, Task, Comment, State } from '../../store/types';
 import './taskModal.css';
 import CommentsList from '../CommentsList/CommentsList';
 import { IoIosChatbubbles } from "react-icons/io";
@@ -17,16 +17,16 @@ interface IProps {
 }
 
 
-const TaskModal: React.FC<IProps> = ({ task, list, setTaskModalShow,  taskModalShow}) => {
+const TaskModal: React.FC<IProps> =  React.memo(({ task, list, setTaskModalShow,  taskModalShow }) => {
 
   const dispatch = useDispatch();
      /* get current username from context*/
-  const selectUsername = (state: any) => state.user.username;
+  const selectUsername = (state: State) => state.user.username;
   const username = useSelector(selectUsername, shallowEqual);
   const author = username;
   
   
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement>(null);
   const handleCloseModal = () => {
     setTaskModalShow(false);
   }
@@ -179,6 +179,6 @@ const TaskModal: React.FC<IProps> = ({ task, list, setTaskModalShow,  taskModalS
 
     </Modal>
   );
-}
+});
 
 export default TaskModal;

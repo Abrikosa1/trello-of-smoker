@@ -1,10 +1,11 @@
 import React, { SetStateAction, useRef, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
-import { List } from '../../types';
-import { v4 as uuidv4 } from 'uuid';
-import './addTaskform.css';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { Button, Form } from 'react-bootstrap';
+import { List, State } from '../../store/types';
+import { v4 as uuidv4 } from 'uuid';
 import { addTask } from '../../store/listsData/actionCreator';
+
+import './addTaskform.css';
 
 interface IProps {
   setOpened: React.Dispatch<SetStateAction<boolean>>;
@@ -14,9 +15,10 @@ interface IProps {
 const AddTaskform: React.FC<IProps> = React.memo(({ setOpened, list }) => {
 
   const dispatch = useDispatch();
+  
   //add task
   const [newTaskTitle, setNewTaskTitle] = useState('');
-  const selectUsername = (state: any) => state.user.username;
+  const selectUsername = (state: State) => state.user.username;
   const username = useSelector(selectUsername, shallowEqual);
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewTaskTitle(e.target.value);
@@ -34,8 +36,7 @@ const AddTaskform: React.FC<IProps> = React.memo(({ setOpened, list }) => {
   };
 
   //cancel add
-  const handleCancel = (e: any) => {
-    console.log('handleCancel');
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
       setOpened(false);
   };

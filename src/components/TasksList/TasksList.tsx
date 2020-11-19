@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import './tasksList.css';
 import TaskCard from '../TaskCard/TaskCard';
-import { List, Task } from '../../types';
+import { List, State, Task } from '../../store/types';
 import AddTaskform from '../AddTaskForm/AddTaskform';
 import { useOutsideAlerter } from '../../hooks/useOutsideAlerter';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -14,7 +14,7 @@ interface IProps {
 
 const TasksList: React.FC<IProps> = React.memo(({ list }) => {
 
-  const selectData = (state: any) => state.data;
+  const selectData = (state: State) => state.data;
   const data = useSelector(selectData, shallowEqual)
 
   const dispatch = useDispatch();
@@ -42,22 +42,17 @@ const TasksList: React.FC<IProps> = React.memo(({ list }) => {
     }
   };
 
-
-
   const textAreaAdjust = (e: any) => {
     e.target.style.height = '1px';
     e.target.style.height = e.target.scrollHeight +'px';
   };
 
-
   //подсчет кол-ва заданий в этом листе
-  const tasksCount = data.tasks.filter((task: Task) => task.listId === list.id).length;
+  const tasksCount = data.tasks.filter(task => task.listId === list.id).length;
 
   /* хук для отлова клика за элементом */
-  const wrapperRef = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   useOutsideAlerter(wrapperRef, setOpened);
-
-
 
   return(
     <div className="tasks-list" >

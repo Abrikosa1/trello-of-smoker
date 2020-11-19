@@ -1,6 +1,8 @@
+import { UserActionTypes } from "./actionTypes";
+
 export const ADD_USER = 'ADD_USER';
-//lists
-export const addUsername = (username: string) => ({
+
+export const addUsername = (username: string): UserActionTypes => ({
   type: ADD_USER,
   payload: username,
 });

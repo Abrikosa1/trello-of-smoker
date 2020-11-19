@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useOutsideAlerter } from '../../hooks/useOutsideAlerter';
-import { List } from '../../types';
+import { List, State } from '../../store/types';
 import AddListForm from '../AddListForm/AddListForm';
 import TasksList from '../TasksList/TasksList';
 
@@ -20,11 +20,11 @@ const Main: React.FC<IProps> = React.memo(() => {
   };
 
 
-  const selectLists = (state: any) => state.data.lists;
+  const selectLists = (state: State) => state.data.lists;
   const lists = useSelector(selectLists, shallowEqual)
 
   /* хук для отлова клика за элементом */
-  const wrapperRef = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   useOutsideAlerter(wrapperRef, setShowForm);
 
   return(

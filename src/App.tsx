@@ -4,10 +4,11 @@ import Main from './components/Main/Main';
 import { shallowEqual, useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { State } from './store/types';
 
 
 const App: React.FC = React.memo(() => {
-  const selectUsername = (state: any) => state.user.username;
+  const selectUsername = (state: State) => state.user.username;
   const username = useSelector(selectUsername, shallowEqual);
   return (
     <> 
@@ -20,3 +21,5 @@ const App: React.FC = React.memo(() => {
 });
 
 export default App;
+
+

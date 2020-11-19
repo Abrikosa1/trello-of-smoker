@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { List, Task, Comment } from '../../types';
+import { List, Task, State } from '../../store/types';
 import TaskModal from '../TaskModal/TaskModal';
 import './taskCard.css';
 import { BsChatFill } from "react-icons/bs";
@@ -11,14 +11,14 @@ interface IProps {
   list: List;
 };
 
-const TaskCard: React.FC<IProps> = ({ task, list }) => {
+const TaskCard: React.FC<IProps> = React.memo(({ task, list }) => {
   const dispatch = useDispatch();
   
   const handleDeleteTask = (e: React.MouseEvent<HTMLSpanElement>) => {
     dispatch(deleteTask(task.id));
   };
 
-  const selectComments = (state: any) => state.data.comments;
+  const selectComments = (state: State) => state.data.comments;
   const comments = useSelector(selectComments, shallowEqual)
   
   const [taskModalShow, setTaskModalShow] = useState(false);
@@ -29,7 +29,7 @@ const TaskCard: React.FC<IProps> = ({ task, list }) => {
 
 
     //подсчет кол-ва комментов в этой задачке
-  const commentsCount = comments.filter((comment: Comment) => comment.taskId === task.id).length;
+  const commentsCount = comments.filter(comment => comment.taskId === task.id).length;
 
   return( 
     <>
@@ -50,6 +50,6 @@ const TaskCard: React.FC<IProps> = ({ task, list }) => {
       <TaskModal taskModalShow={taskModalShow} setTaskModalShow={setTaskModalShow} task={task} list={list} />
     </>
   );
-}
+});
 
 export default TaskCard;
